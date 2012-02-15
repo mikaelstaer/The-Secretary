@@ -1,0 +1,13 @@
+<div class="project-info">
+	<h2><?php echo projectTitle() ?></h2>
+
+	<?php if ( projectHasTags() ):?>
+
+	<div class="tags">
+		Tags: <?php echo projectTags(); ?>
+	</div>
+
+	<?php endif; ?>
+	
+</div>
+<?php echo projectContent(); ?>

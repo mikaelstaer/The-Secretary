@@ -1,0 +1,39 @@
+#overview {
+	float: left;
+	clear: both;
+	width: 100%;
+	padding: 0;
+	margin: 10px 0 0 0;
+	list-style: none;
+	border-top: 1px solid #CCC;
+}
+
+#overview .post {
+	float: left;
+	clear: both;
+	padding: 10px 0 10px 0;
+	width: 100%;
+	border-bottom: 1px solid #CCC;
+	cursor: pointer;
+}
+
+#overview .post:hover {
+	background: #EEE;
+}
+
+#overview .post:active {
+	background: #FFF;
+}
+
+#overview .post .title {
+	display: block;
+	font-weight: bold;
+}
+
+#overview .post .date {
+	font-size: 0.9em;
+}
+
+.date select {
+	float: left;
+}

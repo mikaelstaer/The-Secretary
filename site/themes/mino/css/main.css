@@ -1,0 +1,252 @@
+/*
+ * Defaults
+ */
+
+html, body {
+	padding: 0;
+	margin: 0;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	padding: 20px;
+	font-family: Arial, Verdana, sans-serif;
+	font-size: 1.2em;
+	line-height: 1.4em;
+}
+
+a {
+	color: #0066FF;
+	text-decoration: none;
+}
+
+
+img {
+	border: 0;
+}
+
+
+p {
+	padding: 0;
+	margin: 0px 0 10px 0;
+}
+
+p a:hover{
+	color:#000;
+	}
+
+h1 {
+	padding: 0;
+	margin: 0 0 5px 0;
+}
+
+ul, li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+/*
+ * Utilities
+ */
+
+.align-left {
+	float: left;
+}
+
+.align-right {
+	float: right;
+}
+
+.align-center {
+	margin: 0 auto 0 auto;
+}
+
+/*
+ * Sections
+ */
+
+#header {
+	position: absolute;
+	float: left;
+	top: 0;
+	left: 0;
+	margin: 0 20px 0 0;
+	padding: 20px;
+	width: 250px;
+}
+
+#header #title a {
+	font-weight: bold;
+	text-decoration: none;
+	color: #000;
+}
+
+#header #title a:hover {
+	text-decoration: none;
+	background-color: #FFF;
+	color: #000;
+}
+
+#content {
+	clear: both;
+	margin: 0 0 50px 250px;
+}
+
+#main {
+	float: left;
+	margin-top: 38px;
+}
+
+/*
+ * Menu
+ */
+
+#menu {
+	margin-top: 20px;
+}
+
+#menu a {
+	color: #000;
+}
+
+#menu a:hover {
+	background-color: #FFF;
+	color: #0066FF;
+}
+
+#menu ul {
+	display: block;
+}
+
+#menu li.sectionTitle {
+	margin-top: 10px;
+	font-weight: bold;
+}
+
+#menu .active a {
+	color: #0066FF;
+}
+
+#menu .active a:hover, .project a:hover {
+	color: #FF3366;
+}
+
+/*
+ * Projects
+ */
+
+ul#projects {
+	margin-top: 20px;
+}
+
+.fileGroup {
+	clear: both;
+}
+
+.textblock {
+	float: left;
+	clear: both;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	width: 450px;
+	line-height: 1.6em;
+}
+
+.file {
+	margin-bottom: 10px;
+}
+
+.file img {
+	display: block;
+	padding: 0;
+	margin: 0;
+}
+
+.title {
+	font-weight: bold;
+}
+
+.pageText {
+	margin-bottom: 20px;
+	width: 450px;
+}
+
+a.project {
+	color: transparent;
+}
+
+a.project:hover {
+	color: transparent;
+	text-decoration: none;
+}
+
+.projectInfo {
+	margin-bottom: 20px;
+}
+
+.slideshow-nav a {
+	color: #000;
+}
+
+.slideshow-nav a:hover {
+	text-decoration: underline;
+}
+
+.tags {
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+.tags a {
+	text-decoration: underline;
+}
+
+.tags a:hover {
+	text-decoration: none;
+}
+
+.file .info {
+	font-size: 0.9em;
+	width: 450px;
+}
+
+.file .info .caption {
+	line-height: 1.4em;
+}
+
+/*
+ * Blog
+ */
+
+.post {
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #CCC;
+	width: 600px;
+}
+
+.postTitle a:hover {
+	text-decoration: underline;
+}
+
+.post img {
+	display: block;
+	margin: 0 0 10px 0;
+	padding: 0;
+}
+
+.post .text {
+	margin: 20px 0 20px 0;
+}
+
+.post .more {
+	color: #0066FF;
+}
+
+.post .more:hover {
+	color: #FF0000;
+}

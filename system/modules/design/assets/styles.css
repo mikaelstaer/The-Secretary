@@ -1,0 +1,22 @@
+#code {
+	width: 944px;
+	font-family: Courier, "Courier New", sans-serif;
+}
+
+.theme {
+	padding-bottom: 20px;
+}
+
+.theme .controls a:hover {
+	color: #FFF;
+}
+
+.theme .controls {
+	margin-bottom: 0;
+	height: auto;
+}
+
+.theme .preview img {
+	width: 470px;
+	border: 1px solid #CCC;
+}

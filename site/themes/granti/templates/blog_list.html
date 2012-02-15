@@ -1,0 +1,9 @@
+<div class="post">
+	<span class="postTitle"><a href="<?php echo linkToPost(false); ?>"><?php echo postTitle(); ?></a></span>
+	<span class="date"><?php echo postDate(); ?></span>
+	<div class="text">
+		<a href="<?php echo linkToPost(false); ?>"><?php echo postImageThumb(); ?></a>
+		<?php echo postText(); ?>
+	</div>
+	<a href="<?php echo linkToPost(); ?>" class="more">&rarr;</a>
+</div>

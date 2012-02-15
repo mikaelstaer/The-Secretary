@@ -1,0 +1,3 @@
+<?php
+	$settings['SKIN']= "starling";
+?>

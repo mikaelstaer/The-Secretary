@@ -1,0 +1,261 @@
+html {
+	font-size: 62.5%;
+}
+
+body {
+	padding: 10px;
+	font-family: Arial, Verdana, sans-serif;
+	font-size: 1.2em;
+}
+
+a {
+	color: #000;
+	text-decoration: underline;
+}
+
+a:hover {
+	background-color: #000;
+	text-decoration: underline;
+}
+
+img {
+	border: 0;
+}
+
+p {
+	padding: 0;
+	margin: 10px 0 10px 0;
+}
+
+#header {
+	float: left;
+	clear: both;
+}
+
+#header #title {
+	float: left;
+	width: 200px;
+}
+
+#header #title a {
+	font-weight: bold;
+	text-decoration: none;
+	color: #ff0000;
+}
+
+#header #title a:hover {
+	text-decoration: none;
+	background-color: #FFF;
+	color: #000;
+}
+
+#header #menu {
+	float: left;
+}
+
+#main {
+	float: left;
+	clear: both;
+	margin-left: 200px;
+}
+
+.fileGroup {
+	clear: both;
+	margin: 0 0 20px 0;
+}
+
+.textblock {
+	float: left;
+	clear: both;
+	margin-top: 20px;
+	margin-bottom: 20px;
+	width: 450px;
+	line-height: 1.6em;
+}
+
+.file {
+	margin-bottom: 1px;
+}
+
+.file img {
+	display: block;
+	padding: 0;
+	margin: 0;
+}
+
+.title {
+	font-weight: bold;
+	color: #ff0000;
+}
+
+#menu {
+	font-weight: bold;
+}
+
+#menu a {
+	text-decoration: none;
+	color: #000;
+}
+
+#menu a:hover {
+	text-decoration: none;
+	background-color: #FFF;
+	color: #ff0000;
+}
+
+#menu ul {
+	float: left;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+#menu li {
+	float: left;
+	margin-right: 20px;
+}
+
+#menu .active a {
+	text-decoration: none;
+	color: #ff0000;
+}
+
+#menu .active a:hover {
+	text-decoration: none;
+	color: #000;
+}
+
+#content {
+	clear: both;
+	margin-top: 75px;
+	margin-bottom: 50px;
+}
+
+.pageText {
+	margin-bottom: 20px;
+	width: 450px;
+}
+
+.pageContent {
+	width: 800px;
+}
+
+.projectView {
+	margin-top: 20px;
+}
+
+.project {
+	padding: 3px;
+	font-size: 1.6em;
+	line-height: 1.8em;
+	font-weight: bold;
+	text-decoration: none;
+	color: #000;
+}
+
+.divider {
+	font-size: 1.6em;
+	line-height: 1.8em;
+}
+
+.project:hover {
+	text-decoration: none;
+	background-color: #ff0000;
+	color: #FFF;
+}
+
+.project.active {
+	text-decoration: none;
+	background-color: #009BE6;
+	color: #FFF;
+}
+
+a.project.active:hover {
+	text-decoration: none;
+	background-color: #000;
+}
+
+.slideshow-nav a {
+	color: #000;
+}
+
+.slideshow-nav a:hover {
+	text-decoration: underline;
+}
+
+.tags {
+	margin-bottom: 10px;
+}
+
+.file .info {
+	font-size: 0.9em;
+	width: 450px;
+}
+
+.file .info .caption {
+	line-height: 1.4em;
+}
+
+/*
+ * Blog CSS
+ */
+
+.post {
+	padding-bottom: 10px;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #CCC;
+	width: 600px;
+}
+
+.postTitle {
+	margin: 0 0 5px -3px;
+	font-size: 1.6em;
+}
+
+.postTitle a {
+	padding: 3px;
+	text-decoration: none;
+}
+
+.postTitle a:hover {
+	background-color: #FF0000;
+	color: #FFF;
+}
+
+.post img {
+	display: block;
+	margin: 0 0 10px 0;
+	padding: 0;
+}
+
+.post .text {
+	margin: 20px 0 20px 0;
+}
+
+.post .more {
+	font-size: 0.8em;
+	text-transform: uppercase;
+	text-decoration: none;
+	color: #009BE6;
+}
+
+.post .more:hover {
+	background-color: transparent;
+	color: #FF0000;
+}
+
+/*
+ * Misc. Styles
+ */
+
+.align-left {
+	float: left;
+}
+
+.align-right {
+	float: right;
+}
+
+.align-center {
+	margin: 0 auto 0 auto;
+}

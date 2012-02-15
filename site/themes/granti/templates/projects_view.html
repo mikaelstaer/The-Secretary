@@ -1,0 +1,10 @@
+<div class="project-intro">
+	<h2 class="page-title"><?php echo projectTitle(); ?></h2>
+	<?php if ( projectHasTags() ):?>
+	<div class="tags">
+		Filed under: <?php echo projectTags(); ?>
+	</div>
+	<?php endif; ?>
+</div>
+
+<?php echo projectContent(); ?>

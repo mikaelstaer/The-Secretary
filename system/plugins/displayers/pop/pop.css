@@ -1,0 +1,20 @@
+.fileGroup.pop {
+	float: left;
+}
+
+.fileGroup.pop .info {
+	display: none;
+}
+
+.popper {
+	outline: none;
+}
+
+.fileGroup.pop .file {
+	float: left;
+	margin-right: 10px;
+}
+
+.popcontent {
+	display: none;
+}

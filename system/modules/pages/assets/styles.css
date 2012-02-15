@@ -1,0 +1,45 @@
+#pageList {
+	float: left;
+	clear: both;
+	padding: 0 0 40px 0;
+	margin: 10px 0 0 0;
+	width: 100%;
+	list-style: none;
+}
+
+#pageList .item {
+	float: left;
+	clear: both;
+	padding: 10px 0 10px 0;
+	margin-bottom: -1px;
+	width: 100%;
+	border-top: 1px solid #CCC;
+	border-bottom: 1px solid #CCC;
+}
+
+#pageList .item:hover {
+	background: #EEE;
+	cursor: pointer;
+}
+
+#pageList .item:active {
+	background: #FFF;
+}
+
+#pageList .item .title {
+	float: left;
+	margin-left: 10px;
+	margin-top: 3px;
+	font-weight: bold;
+}
+
+#pageList a {
+	display: block;
+	position: relative;
+}
+
+#pageList .handle {
+	margin-top: -3px;
+	margin-right: 10px;
+	border: none;
+}

@@ -1,0 +1,12 @@
+<a href="<?php echo linkToProject();?>" class="project<?php if ( selectedProject() == projectSlug() ) echo ' active'?>"><?php echo projectTitle();?></a> <span class="divider">/</span>
+
+<?php
+/*
+	$files= getProjectFiles( $project['id'] );
+	foreach ( $files as $id => $data )
+	{
+		echo dynamicThumbnail( $data['file'], PROJECTS_URL . projectSlug() . "/", $clerk->getSetting( "projects_filethumbnail", 1 ), $clerk->getSetting( "projects_filethumbnail", 2 ), 1 );
+		//echo '<img src="' . PROJECTS_URL . projectSlug() . "/" . $data['thumbnail'] . '" alt="" />';
+	}
+*/
+?>

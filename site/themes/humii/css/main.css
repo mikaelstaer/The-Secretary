@@ -1,0 +1,357 @@
+/*
+ * Defaults
+ */
+
+html, body {
+	padding: 0;
+	margin: 0;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 1.2em;
+	line-height: 1.4em;
+	background-color: #FFF;
+	color: #222;
+}
+
+a {
+	color: #222;
+	text-decoration: none;
+}
+
+p a {
+	padding-bottom: 1px;
+	border-bottom: 1px solid #E5E5E5;
+}
+
+p a:hover {
+	border-bottom: none;
+}
+
+img {
+	border: 0;
+}
+
+p {
+	padding: 0;
+	margin: 0px 0 10px 0;
+	line-height: 1.4em;
+}
+
+h1, h2, h3 {
+	padding: 0;
+	margin: 0;
+	text-transform: uppercase;
+	font-weight: normal;
+}
+
+h1 {
+	font-size: 2.4em;
+	letter-spacing: 5px;
+}
+
+h2 {
+	font-size: 1.2em;
+	margin-bottom: 5px;
+}
+
+h3 {
+	margin-bottom: 5px;
+	font-size: 1em;
+}
+
+/*
+ * Utilities
+ */
+
+.align-left {
+	float: left;
+}
+
+.align-right {
+	float: right;
+}
+
+.align-center {
+	margin: 0 auto 0 auto;
+}
+
+.column {
+	float: left;
+	margin-right: 10px;
+	width: 230px;
+}
+
+.column.last {
+	margin: 0;
+}
+
+/*
+ * Parts
+ */
+
+#wrapper {
+	margin: 50px auto 40px auto;
+	width: 960px;
+}
+
+#header {
+	margin-bottom: 20px;
+	border-bottom: 1px #CCC solid;
+}
+
+#header #title {
+	text-align: center;
+}
+
+#header #title h1 {
+	display: inline;
+}
+
+#content {
+	float: left;
+	clear: both;
+	padding: 0px 0 20px 0;
+	width: 100%;
+}
+
+#subtitle {
+	font-style: italic;
+	font-size: 1.2em;
+	text-align: center;
+	padding: 20px;
+	border-bottom: 1px #CCC solid;
+}
+
+#footer {
+	float: left;
+	clear:both;
+	width: 100%;
+	margin-bottom: 10px;
+	padding: 10px 0 10px 0;
+	border-top: 1px #CCC solid;
+}
+
+#powered-by {
+	float: left;
+	clear: both;
+	margin-bottom: 40px;
+	padding-top: 10px;
+	width: 100%;
+	border-top: 1px #CCC solid;
+}
+
+.page-text {
+	width: 500px;
+}
+
+/*
+ * Menu
+ */
+
+#menu {
+	padding: 10px 0 10px 0;
+	text-align: center;
+	text-transform: uppercase;	
+}
+
+#menu ul, #menu li {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+#menu ul {
+	width: 100%;
+}
+
+#menu li {
+	display: inline;
+	margin-right: 20px;
+}
+
+#menu li:last-child {
+	margin-right: 0;
+}
+
+#menu li a {
+	padding-bottom: 1px;
+}
+
+#menu li a:hover {
+	border-bottom: 1px solid #E5E5E5;
+}
+
+/*
+ * Projects
+ */
+
+.project-link {
+	display: block;
+	float: left;
+	margin: 0 10px 10px 0;
+	width: 230px;
+	text-align: center;
+	overflow: hidden;
+	outline: none;
+}
+
+.project-link .thumbnail {
+	display: block;
+	margin-bottom: 5px;
+	height: 110px;
+	background-color: #EEE;
+}
+
+.front_slideshow_image {
+	outline: none;
+}
+
+.project-link .thumbnail:hover, .front_slideshow_image:hover img {
+	opacity: 0.75;
+	-moz-opacity: 0.75;
+	filter:alpha(opacity=75);
+}
+
+.project-link img {
+	display: block;
+}
+
+.project-info {
+	margin-bottom: 10px;
+}
+
+.project-info h2 {
+	margin-bottom: 0;
+}
+
+.tags {
+	margin-bottom: 5px;
+	width: 240px;
+}
+
+.tags, .tags a {
+	color: #999;
+}
+
+.tags a:hover {
+	color: #EF2400;
+}
+
+.fileGroup {
+	float: left;
+	margin: 0 10px 10px 0;
+	width: 680px;
+}
+
+.file {
+	float: left;
+}
+
+.file img {
+	display: block;
+	margin-bottom: 1px;
+	max-width: 680px;
+	height: auto;
+}
+
+.textblock {
+	float: left;
+	margin: 0 20px 20px 0;
+	width: 240px;
+}
+
+.slideshow .slideshow-nav {
+	margin-bottom: 5px;
+}
+
+.slideshow .slideshow-nav a, .file .info .title {
+	color: #EF2400;
+}
+
+.slideshow .slideshow-nav, .file .info .caption {
+	color: #999;
+}
+
+.slideshow .slideshow-nav .currentSlide {
+	font-weight: bold;
+}
+
+/*
+ * Blog
+ */
+
+.post {
+	margin: 0px 0 40px 0;
+	width: 500px;
+}
+
+.postTitle {
+	margin-bottom: 0;
+}
+
+.postTitle a:hover {
+	text-decoration: underline;
+}
+
+.post img {
+	display: block;
+	margin: 0 0 10px 0;
+	padding: 0;
+}
+
+.post .text {
+	margin: 20px 0 0 0;
+}
+
+.post .date {
+	color: #999;
+}
+
+.post .more {
+	margin-left: 5px;
+	font-size: 1em;
+	color: #EF2400;
+}
+
+.post .more:hover {
+	color: #999;
+}
+
+.back {
+	color: #EF2400;
+}
+
+.back:hover {
+	text-decoration: underline;
+}
+
+#footer .post {
+	margin: 0;
+	width: 100%;
+}
+
+#footer .postTitle {
+	margin-bottom: 0;
+	font-weight: bold;
+	color: #EF2400;
+}
+
+#footer .date {
+	display: block;
+	clear: both;
+}
+
+#footer .text {
+	margin-top: 10px;
+	width: 100%;
+}
+
+#footer .more {
+	font-size: 1.2em;
+}

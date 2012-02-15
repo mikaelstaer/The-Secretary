@@ -1,0 +1,13 @@
+.fileName {
+	padding-left: 3px;
+	font-size: 0.9em;
+}
+
+.thumbnail {
+	width: 110px;
+}
+
+td {
+	padding: 10px 0 10px 0;
+	border-bottom: 1px solid #EEE;
+}

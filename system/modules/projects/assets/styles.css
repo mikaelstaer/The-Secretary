@@ -1,0 +1,461 @@
+/*
+ Section Tabs
+*/
+#overview #tabHolder {
+	position: relative;
+	float: left;
+	width: 958px;
+	height: 34px;
+	border: 1px solid #CCC;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+#sectionsTabs {
+	float: left;
+	position: relative;
+	width: 10000px;
+	height: 40px;
+}
+
+#sectionsTabs li.section {
+	position: relative;
+	margin: -1px 0 0 -1px;
+	float: left;
+	width: auto;
+	border: 1px solid #CCC;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	overflow: visible;
+}
+
+#sectionsTabs li.section .name {
+	float: left;
+	position: relative;
+	padding: 10px;
+	text-indent: 0;
+	color: #666;
+}
+
+#sectionsTabs li.section:hover {
+	background-color: #EEE;
+	cursor: pointer;
+}
+
+#sectionsTabs li.section.ui-state-active:hover, #sectionsTabs li.section.ui-state-active .name {
+	cursor: move;
+}
+
+#sectionsTabs li.section .controls, #sectionsTabs li.section a:active + .controls {
+	display: none;
+}
+
+#sectionsTabs li.section.ui-state-active .controls {
+	display: block;
+}
+
+.ui-tabs-hide {
+     display: none;
+}
+
+.ui-tabs #sectionsTabs li.ui-state-active a.name {
+	color: #FFF;
+}
+
+.ui-tabs #sectionsTabs li.ui-state-active {
+	background-color: #000;
+}
+
+.ui-tabs-panel {
+	float: left;
+	margin-top: 10px;
+}
+
+.ui-tabs #sectionsTabs li.droppableHover, .ui-tabs #sectionsTabs li.ui-state-active.droppableHover .name {
+	background-color: #FFED87;
+	color: #666;
+}
+
+/*
+ Other shiz
+*/
+
+#UploadedFiles {
+	float: left;
+	width: 100%;
+}
+
+#UploadedFiles #Containment {
+	float: left;
+	position: relative;
+	padding-top: 10px;
+	width: 100%;
+}
+
+#UploadedFiles #Files {
+	float: left;
+}
+
+#UploadedFiles .info {
+	float: left;
+	margin-left: 10px;
+}
+
+#UploadedFiles textarea, #UploadedFiles input[type="text"], .editInPlace {
+	max-width: 500px;
+	min-width: 200px;
+	font-size: 1.2em;
+}
+
+#UploadedFiles .edit_area {
+	margin-top: 2px;
+	font-size: 0.9em;
+	color: #7C7C7C;
+}
+
+#UploadedFiles #Containment .drop_highlight {
+	background-color: #DAEFF7;
+}
+
+.filebox {
+	position: relative;
+	float: left;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 10px;
+	width: 100px;
+	height: 123px;
+}
+
+.filebox ul {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+			
+.filebox .edit {
+	display: none;
+	position: relative;
+	padding: 5px;
+	height: 13px;
+	text-align: center;
+	text-transform: uppercase;
+	font-size: 0.8em;
+	background-color: #222;
+	background-image: none;
+	color: #FFF;
+	z-index: 100;
+}
+
+.filebox:hover .edit, .filebox:hover .edit.active {
+	display: block;
+}
+
+.filebox .edit:hover, .filebox .edit.active {
+	display: block;
+	background: #222;
+	color: #FFF;
+}
+
+.filebox .toolbar {
+	position: relative;
+	z-index: 200;
+}
+
+.filebox .toolbar li {
+	display: inline;
+	position: relative;
+	float: left;
+	margin-right: 5px;
+}
+
+.filebox .thumbnail {
+	cursor: move;
+	width: 100px;
+	height: 100px;
+	overflow: hidden;
+}
+
+.filebox .thumbnail .media {
+	display: block;
+	padding: 5px;
+	width: 88px;
+	height: 88px;
+	font-size: 0.9em;
+	border: 1px solid #CCC;
+	background-color: #EEE;
+}
+
+.filebox .toolbar .options {
+	display: none;
+	position: absolute;
+	bottom: 23px;
+	left: 0;
+	padding: 0 0 20px 0;
+	width: 150px;
+	font-size: 0.9em;
+	letter-spacing: 0.04em;
+	background: #222;
+	z-index: 99;
+	-moz-box-shadow: 0 0px 7px #444;
+	-webkit-box-shadow: 0 0px 7px #444;
+	box-shadow: 0 0px 7px #444;
+}
+
+.filebox .toolbar .options li {
+	position: relative;
+	width: 150px;
+}
+
+.filebox .toolbar .options a {
+	display: block;
+	padding: 7px;
+	border-bottom: 1px solid #555;
+	letter-spacing: 0.05em;
+	color: #FFF;
+	cursor: pointer;
+	outline: none;
+}
+
+.filebox .toolbar .options a:active {
+	background-color: #444;
+}
+
+.filebox .toolbar .options a:hover {
+	background-color: #EEE;
+	color: #1B94E8;
+}
+
+.filebox .toolbar .options a:active {
+	background-color: #222;
+	color: #FFF;
+}
+
+#uploader #filelist {
+	float: left;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 100%;
+}
+
+#uploader #filelist div {
+	float: left;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	margin-right: 10px;
+	width: 468px;
+	border-bottom: 1px solid #DDD;
+	overflow: hidden;
+}
+
+.MultiFile-remove {
+	padding: 3px;
+	margin-right: 5px;
+	text-transform: uppercase;
+	font-size: 0.8em;
+	background-color: #FFD846;
+	color: #000;
+}
+
+.MultiFile-remove:hover {
+	background-color: #000;
+	color: #FFD846;
+}
+
+.MultiFile-title {
+	font-size: 0.9em;
+}
+
+#uploader #filelist .file {
+	font-family: "Andale Mono", "Courier New", Courier, sans-serif;
+}
+
+.sectionProjects .controls {
+	border: none;
+	height: auto;
+}
+
+.sectionProjects .controls ul li {
+	padding: 0;
+	height: auto;
+}
+
+.fileGroup .controls {
+	border-top: none;
+	border-left: none;
+	border-right: none;
+}
+
+.fileGroup {
+	float: left;
+	padding: 0;
+	margin-bottom: 20px;
+	width: 100%;
+	border: 1px solid #CCC;
+}
+
+.textBlock {
+	clear: both;
+	width: 525px;
+}
+
+.textBlock .controls {
+	margin: 0;
+}
+
+#theThumb .delete {
+	display: block;
+	margin-top: 5px;
+}
+
+#theThumb .delete a {
+	position: relative;
+	top: 1px;
+	left: 0;
+	padding: 3px;
+	font-size: 0.8em;
+	text-transform: uppercase;
+	outline: 0;
+}
+
+.fileGroup .controls .displayer {
+	border-right: 1px solid #CCC;
+}
+
+.fileGroup .controls .textblockToolbar {
+	border-right: 1px solid #CCC;
+}
+
+.fileGroup .textblock {
+	margin: 0;
+	width: 513px;
+	border: 1px solid #FFF;
+	line-height: 1.6em;
+}
+
+.fileGroup select {
+	display: block;
+	margin: -3px 0 0 0;
+}
+
+.fileGroup .handle {
+	border-top: none;
+	border-left: none;
+	border-bottom: none;
+	background-color: #EEE;
+}
+
+.fileGroup .handle:hover {
+	background-color: #DDD;
+}
+
+#groupedFiles {
+	float: left;
+	position: relative;
+	margin-top: 10px;
+	width: 100%;
+}
+
+.project, .ui-sortable-placeholder {
+	float: left;
+	margin-right: 21px;
+	margin-bottom: 20px;
+	width: 175px;
+	height: 140px;
+}
+
+.project:nth-child(5n+0) {
+	margin-right: 0;
+}
+
+.project .handle {
+	display: block;
+	position: relative;
+	margin-bottom: 3px;
+	width: 175px;
+	height: 110px;
+	border: 1px solid #fff;
+	background: #eee url("emptythumb.png") no-repeat center center;
+	overflow: hidden;
+	cursor: move;
+	text-indent: 0px;
+}
+
+.project .handle img {
+	width: 100%;
+	min-height: 110px;
+}
+
+.helper {
+	width: 10px;
+	height: 10px;
+	background: #882AFF;
+	color: #FFF;
+}
+
+.project .title {
+	display: block;
+	float: left;
+	clear: both;
+	margin-top: 3px;
+	width: 100%;
+	text-align: center;
+	font-size: 0.9em;
+	color: #666;
+}
+
+.project:hover .title {
+	color: #000;
+}
+
+.ui-sortable-placeholder {
+	background: #000;
+}
+
+.ui-sortable-helper .handle img {
+/*	display: none;*/
+}
+
+.project .handle {
+	float: left;
+	clear: both;
+	border: 1px solid #ccc;
+}
+
+.project:hover .handle {
+	border-color: #B6B6B6;
+	z-index: 100;
+}
+
+#waitingRoom {
+	position: relative;
+	z-index: 100;
+	background-color: #FFF;
+}
+
+#waitingRoom.scrollFixed {
+	top: 15px;
+	-moz-box-shadow: 1px 2px 7px #CCC;
+	-webkit-box-shadow: 1px 2px 7px #CCC;
+	box-shadow: 1px 2px 7px #CCC;
+}
+
+#waitingRoom .formMessage {
+	padding-left: 10px;
+	padding-right: 10px;
+	font-size: 1em;
+}
+
+#theThumb {
+	width: 470px;
+	max-height: 300px;
+	overflow: auto;
+}
+
+#theThumb img {
+	display: block;
+	max-width: 100%;
+}

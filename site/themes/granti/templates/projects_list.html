@@ -1,0 +1,22 @@
+<?php
+	$count++;
+	$classes= "";
+	
+	if ( selectedProject() == projectSlug() )
+		$classes= " active";
+	
+	if ( $count == 4 )
+	{
+		$classes.= " last";
+		$count= 0;
+	}
+?>
+<a href="<?php echo linkToProject();?>" class="project<?php echo $classes; ?>">
+	<span class="thumbnail">
+		<?php echo projectThumbnail(); ?>
+	</span>
+	<span class="details">
+		<?php echo projectTitle(); ?>
+		<span class="tags"><?php //echo projectTags(); ?></span>
+	</span>
+</a>

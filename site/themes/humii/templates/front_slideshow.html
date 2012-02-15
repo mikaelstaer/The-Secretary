@@ -1,0 +1,20 @@
+<?php
+	// $project is available within templates.
+	// It is an array populated with information directly from the database.
+	// Can be used to target specific information not available from a template tag,
+	// or as a way to bypass them entirely and do custom processing.
+	$thumbnail= $project['thumbnail'];
+	
+	if ( empty( $thumbnail ) == false ):
+	
+	$project_folder= getSetting( "projects_path", 1 ) . projectSlug() . '/';
+	
+	list( $width, $height )= getimagesize( $project_folder . $thumbnail );
+	
+	// Generate big thumbnail!
+	$wide_thumb= ( $width >= 960 ) ? projectThumbnail() : dynamicThumbnail( $thumbnail, $project_folder, 960, 450 );
+?>
+<a href="<?php echo linkToProject();?>" class="front_slideshow_image"><?php echo $wide_thumb; ?></a>
+<?php
+	endif;
+?>

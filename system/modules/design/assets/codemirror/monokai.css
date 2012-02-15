@@ -1,0 +1,32 @@
+/* Based on Sublime Text's Monokai theme */
+/* Modified for The Secretary */
+
+.cm-s-monokai {background: #222; color: #E5E5DF;}
+.cm-s-monokai div.CodeMirror-selected {background: #222 !important;}
+.CodeMirror-focused span.CodeMirror-selected { background: #882AFF; }
+.cm-s-monokai .CodeMirror-gutter {background: #323232; border-right: 0px;}
+.cm-s-monokai .CodeMirror-gutter-text {color: #86765B;}
+.cm-s-monokai .CodeMirror-cursor {border-left: 1px solid #f8f8f0 !important;}
+
+.cm-s-monokai span.cm-comment {color: #75715E;}
+.cm-s-monokai span.cm-atom {color: #AE81FF;}
+.cm-s-monokai span.cm-number {color: #AE81FF;}
+
+.cm-s-monokai span.cm-property, .cm-s-monokai span.cm-attribute {color: #EB853A;}
+.cm-s-monokai span.cm-keyword {color: #8C40EE;}
+.cm-s-monokai span.cm-string {color: #B9B05C;}
+
+.cm-s-monokai span.cm-variable {color: #A6E22E;}
+.cm-s-monokai span.cm-variable-2 {color: #1B94E8;}
+.cm-s-monokai span.cm-def {color: #EB853A;}
+.cm-s-monokai span.cm-error {background: #EF2C31; color: #F8F8F0;}
+.cm-s-monokai span.cm-bracket {color: #F8F8F2;}
+.cm-s-monokai span.cm-tag {color: #D53F75;}
+.cm-s-monokai span.cm-link {color: #936CD8;}
+
+.cm-s-monokai .CodeMirror-matchingbracket {
+  text-decoration: underline;
+  color: white !important;
+}
+
+pre.activeline { background: #191919; }

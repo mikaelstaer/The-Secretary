@@ -1,0 +1,319 @@
+/*
+ * Defaults
+ */
+
+html, body {
+	padding: 0;
+	margin: 0;
+}
+
+html {
+	font-size: 62.5%;
+}
+
+body {
+	font-family: Arial, Verdana, sans-serif;
+	font-size: 1.2em;
+	background-color: #151515;
+	color: #EEE;
+}
+
+a {
+	color: #EEE;
+	text-decoration: none;
+}
+
+p a {
+	padding-bottom: 1px;
+	border-bottom: 1px solid #666;
+}
+
+p a:hover {
+	border-bottom: none;
+}
+
+img {
+	border: 0;
+}
+
+p {
+	padding: 0;
+	margin: 0px 0 10px 0;
+	line-height: 1.4em;
+}
+
+h1, h2 {
+	padding: 0;
+	margin: 0;
+	font-size: 1em;
+}
+
+h2.page-title {
+	font-weight: normal;
+	font-size: 1.2em;
+	color: #EF2400;
+}
+
+/*
+ * Utilities
+ */
+
+.align-left {
+	float: left;
+}
+
+.align-right {
+	float: right;
+}
+
+.align-center {
+	margin: 0 auto 0 auto;
+}
+
+/*
+ * Parts
+ */
+
+#site {
+	margin: 50px auto 20px auto;
+	width: 860px;
+}
+
+#header {
+	float: left;
+	margin-bottom: 50px;
+	width: 100%;
+	font-size: 1.2em;
+}
+
+#header #title {
+	font-weight: bold;
+	text-decoration: none;
+}
+
+#header #title a {
+	color: #EEE;
+}
+
+#header #title a:hover {
+	border-bottom: 1px solid #EF2400;
+}
+
+#main {
+	float: left;
+	margin-bottom: 70px;
+}
+
+#content {
+	clear: both;
+}
+
+.page-text {
+	margin: 10px 10px 20px 0;
+	width: 450px;
+}
+
+/*
+ * Menu
+ */
+
+#menu {
+	margin-top: 5px;
+}
+
+#menu a {
+	color: #999;
+}
+
+#menu .active a {
+	color: #EF2400;
+}
+
+#menu a:hover {
+	color: #CCC;
+}
+
+#menu ul {
+	float: left;
+	clear: both;
+	display: block;
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+
+#menu li {
+	float: left;
+	margin-right: 10px;
+	list-style: none;
+}
+
+/*
+ * Projects
+ */
+
+.fileGroup {
+	float: left;
+	margin-bottom: 20px;
+}
+
+.slideshow {
+	clear: both;
+	color: #666;
+}
+
+.slideshow-nav {
+	margin-bottom: 3px;
+	font-size: 0.9em;
+}
+
+.slideshow-nav a {
+	color: #999;
+}
+
+.slideshow-nav a:hover {
+	color: #666;
+}
+
+.textblock {
+	float: left;
+	margin: 0px 10px 20px 0;
+	width: 450px;
+}
+
+.file {
+	margin-bottom: 10px;
+}
+
+.file img {
+	display: block;
+	padding: 0;
+	margin: 0;
+	max-width: 860px;
+}
+
+.file .info {
+	margin-top: 5px;
+	font-size: 0.9em;
+	width: 450px;
+}
+
+.file .info .title {
+	font-weight: bold;
+	color: #EF2400;
+}
+
+.file .info .caption {
+	
+}
+
+.project {
+	float: left;
+	display: block;
+	margin-right: 20px;
+	margin-bottom: 10px;
+	width: 200px;
+	height: 180px;
+	overflow: hidden;
+	outline: none;
+}
+
+.project .thumbnail {
+	display: block;
+	width: 200px;
+	height: 130px;
+	overflow: hidden;
+	background-color: #000;
+}
+
+.project .details {
+	display: block;
+	margin-top: 5px;
+	text-align: center;
+	color: #666;
+}
+
+.project:hover .details {
+	color: #EEE;
+}
+
+.project .details .tags a {
+	color: #666;
+}
+
+.project.active .details {
+	color: #EF2400;
+}
+
+.tags {
+	margin-bottom: 20px;
+	font-size: 0.9em;
+	color: #999;
+}
+
+.project-intro .tags {
+	margin-bottom: 0;
+}
+
+.tags a {
+	color: #666;
+}
+
+.tags a:hover {
+	color: #999;
+}
+
+.project-intro {
+	float: left;
+	clear: both;
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+.view {
+	float: left;
+	clear: both;
+	padding-bottom: 20px;
+	margin-bottom: 20px;
+	width: 100%;
+}
+
+.last {
+	margin-right: 0;
+}
+
+/*
+ * Blog
+ */
+
+.post {
+	margin: 0px 0 40px 0;
+}
+
+.postTitle a:hover {
+	text-decoration: underline;
+}
+
+.post img {
+	display: block;
+	margin: 0 0 10px 0;
+	padding: 0;
+}
+
+.post .text {
+	margin: 20px 0 0 0;
+	width: 450px;
+}
+
+.post .date {
+	color: #999;
+}
+
+.post .more {
+	font-size: 1.2em;
+	color: #EF2400;
+}
+
+.post .more:hover {
+	color: #999;
+}
