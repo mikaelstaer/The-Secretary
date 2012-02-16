@@ -1,5 +1,5 @@
 <?php
-	error_reporting( E_ALL );
+	error_reporting( 0 );
 	
 	define( "AJAX", true );
 	require_once $_POST['system']['path'] . "assistants/launch.php";
@@ -153,7 +153,7 @@
 		{
 			$id= $clerk->lastID();
 			$html= <<<HTML
-				<div id="file_group-{$id}" class="fileGroup textBlock" title="textblock">
+				<div id="file_group-{$id}" class="fileGroup textBlock" data-type="textblock">
 					<div class="controls">
 						<ul>
 							<li class="handle">
@@ -209,7 +209,7 @@ HTML;
 		}
 				
 		$html= <<<HTML
-			<ul id="file_group-{$groupNum}" class="fileGroup" title="group">
+			<ul id="file_group-{$groupNum}" class="fileGroup" data-type="group">
 				<li>
 					<div class="controls">
 						<ul>

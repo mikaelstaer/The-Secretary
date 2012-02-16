@@ -27,7 +27,9 @@ INSERT INTO global_settings (id, name, data1, data2, data3) VALUES
 (17, 'site_theme', 'aplonis', '', ''),
 (18, 'index_page', '1', '', ''),
 (19, 'maintenanceMode', '0', '', ''),
-(20, 'clean_urls', '0', '', '');
+(20, 'clean_urls', '0', '', ''),
+(21, 'projects_fullsizeimg', '', '1', '0'),
+(22, 'slideshow_opts', '', '', '');
 
 CREATE TABLE IF NOT EXISTS pages (
   id int(11) NOT NULL auto_increment,

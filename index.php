@@ -1,10 +1,21 @@
 <?php
-	/*
-	 * The Secretary
-	 * by Mikael Stær (www.secretarycms.com, www.mikaelstaer.com)
-	 *
-	 * A portfolio management system for designers.
-	 */
+	# T H E
+	#  ad88888ba                                                                                                 
+	# d8"     "8b                                                    ,d                                          
+	# Y8,                                                            88                                          
+	# `Y8aaaaa,     ,adPPYba,   ,adPPYba,  8b,dPPYba,   ,adPPYba,  MM88MMM  ,adPPYYba,  8b,dPPYba,  8b       d8  
+	#   `"""""8b,  a8P_____88  a8"     ""  88P'   "Y8  a8P_____88    88     ""     `Y8  88P'   "Y8  `8b     d8'  
+	#		  `8b  8PP"""""""  8b          88          8PP"""""""    88     ,adPPPPP88  88           `8b   d8'   
+	# Y8a     a8P  "8b,   ,aa  "8a,   ,aa  88          "8b,   ,aa    88,    88,    ,88  88            `8b,d8'    
+	#  "Y88888P"    `"Ybbd8"'   `"Ybbd8"'  88           `"Ybbd8"'    "Y888  `"8bbdP"Y8  88              Y88'     
+	#																								   d8'      
+	#																								  d8'  
+	
+	# Simple content management.
+	
+	# @author     Mikael Stær <info@thesecretary.org>
+	# @version    2.3 2012-02-20
+	# @license    http://www.gnu.org/licenses/gpl-3.0.txt	GPL
 	
 	header('Content-type: text/html; charset=utf-8');
 	
@@ -14,7 +25,7 @@
 	ob_start();
 
 	define( 'VERSION', '2.3' );
-	define( 'VERSION_DATE', '2011' );
+	define( 'VERSION_DATE', '2012' );
 	define( "BASE_PATH", dirname( $_SERVER["SCRIPT_FILENAME"] ) . "/" );
 	define( "BASE_URL", str_replace( basename(__FILE__), "", $_SERVER['SCRIPT_URI'] ) );
 	define( "SYSTEM" , BASE_PATH  . "system/" );

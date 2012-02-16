@@ -113,18 +113,18 @@ jQuery( function($)
 			system_path: SYSTEM.path,
 			system_url: SYSTEM.url
 		},
-		beforeSubmit:	function(formData, form, options )
-					  	{
-							jQuery.noticeAdd({ text: "Uploading...", stay: true, type: "heavy" });
-					  	},
-		success: 		function(data, status)
-						{	
-							$("#thumbnailForm #theThumb img").remove();
-							$("#thumbnailForm #theThumb").prepend(data);
-							$("#thumbnailForm .delete").show();
+		beforeSubmit: function(formData, form, options )
+		{
+			jQuery.noticeAdd({ text: "Uploading...", stay: true, type: "heavy" });
+		},
+		success: function(data, status)
+		{	
+			$("#thumbnailForm #theThumb img").remove();
+			$("#thumbnailForm #theThumb").prepend(data);
+			$("#thumbnailForm .delete").show();
 							
-							jQuery.noticeRemove(jQuery(".heavy"), 2000);
-						}
+			jQuery.noticeRemove(jQuery(".heavy"), 2000);
+		}
 	};
 	
 	$("#thumbnailUpload").ajaxForm(thumbnailOptions);
@@ -503,14 +503,14 @@ var updateFlow= function(send)
 		groupId= Number( groupId.substring( groupId.search('-') + 1 ) );
 					
 		// Is a file group
-		if ( jQuery(this).attr("title") == "group" )
+		if ( jQuery(this).attr("data-type") == "group" )
 		{
 			displayType= jQuery("#file_group-" + groupId + " .displayType").val();
 			order[i]= "group" + groupId + ":" + displayType;
 		}
 		else
 		{
-			order[i]= jQuery(this).attr("title") + groupId;
+			order[i]= jQuery(this).attr("data-type") + groupId;
 		}
 	});
 	
@@ -884,17 +884,20 @@ var deleteProjThumbnail= function()
 				jQuery("#theThumb img").fadeOut("normal", function() { jQuery(this).remove(); });
 			}
 	);
-}
+};
 
-// Fixed Scroll
-// http://www.webdeveloperjuice.com/2011/08/07/how-to-fix-element-position-after-some-scroll-using-jquery/
+/*
+ * Fixed Scroll
+ * http://www.webdeveloperjuice.com/2011/08/07/how-to-fix-element-position-after-some-scroll-using-jquery/
+ *
+ */
 (function($)
 {
 	$.fn.scrollFixed = function(params)
 	{
 		params = $.extend( {appearAfterDiv: 0, hideBeforeDiv: 0, container: 0, spacer: false}, params);
 		var element = $(this);
-		
+
 		if( params.appearAfterDiv )
 			var distanceTop = element.offset().top + $(params.appearAfterDiv).outerHeight(true) + element.outerHeight(true);
 		else
@@ -905,10 +908,10 @@ var deleteProjThumbnail= function()
 		else
 			var bottom= $(document).height() - element.outerHeight(true);
 			// var bottom = 200000;
-		
+
 		if ( params.spacer )
 			$(params.container).prepend('<div class="spacer"></div>');
-		
+
 		$(window).scroll(function()
 		{
 			if ( element.is(":visible") ) {

@@ -13,6 +13,7 @@
 		private $globalSettings	=	array();
 		
 		public 	$queries		= 	0;
+		public 	$link;
 		
 		function __construct( $auto= true )
 		{
@@ -41,23 +42,28 @@
 	
 		public function loadSettings()
 		{
-			$this->globalSettings= array();
-			
+			$settings= array();
+				
 			$getSettings= $this->query_select( "global_settings" );
 			while ( $setting= $this->query_fetchArray( $getSettings ) )
 			{
-				$this->globalSettings[$setting['name']]= array(
+				// if ( empty( $setting['data1'] ) && empty( $setting['data2'] ) && empty( $setting['data3'] ) ) continue;
+					
+				$settings[$setting['name']]= array(
 					'data1'	=>	$setting['data1'],
 					'data2'	=>	$setting['data2'],
 					'data3'	=>	$setting['data3']
 				);
 			}
 			
-			return true;
+			$this->globalSettings= $settings;
+			
+			return $this->globalSettings;
 		}
 		
 		public function getSetting( $name, $which= "" )
 		{
+			if ( empty( $this->globalSettings[$name] ) ) return false;
 			return ( !empty($which) && is_int($which) ) ? $this->globalSettings[$name]['data'.$which] : $this->globalSettings[$name];
 		}
 		
@@ -168,6 +174,8 @@
 		
 		public function settingExists( $name )
 		{
+			
+			//return ( $this->query_numRows( "global_settings", "WHERE name= '$name'" ) == 1 );
 			return array_key_exists( $name, $this->globalSettings );
 		}
 	
@@ -179,7 +187,14 @@
 			mysql_query( "SET NAMES 'utf8'", $this->link );
 			mysql_query( "SET CHARACTER SET utf8", $this->link );
 			
-			return mysql_select_db($info["DB_NAME"]);
+			return mysql_select_db( $info["DB_NAME"] );
+		}
+		
+		public function disconnect()
+		{
+			$this->link= "";
+			mysql_free_result();
+			mysql_close();
 		}
 				
 		public function query_insert( $table, $fields, $values, $multiple= false )

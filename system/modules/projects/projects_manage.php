@@ -555,7 +555,7 @@ HTML;
 				$textblock_toolbar= call_anchor( "projects_textblock_toolbar", $textblock_toolbar );
 
 				$grouped.= '
-					<div id="file_group-' . $fileID . '" class="fileGroup textBlock" title="textblock">
+					<div id="file_group-' . $fileID . '" class="fileGroup textBlock" data-type="textblock">
 						<div class="controls">
 							<ul>
 								<li class="handle">
@@ -586,7 +586,7 @@ HTML;
 				$group_toolbar= call_anchor( "projects_filegroup_toolbar", $group_toolbar );
 				
 				$grouped.= '
-					<ul id="file_group-' . $groupNum . '" class="fileGroup" title="group">
+					<ul id="file_group-' . $groupNum . '" class="fileGroup" data-type="group">
 						<li>
 							<div class="controls">
 								<ul>

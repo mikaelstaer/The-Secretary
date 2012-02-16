@@ -71,12 +71,12 @@
 					{
 						global $manager;
 
-						// Connect
-						$db	=	array(
-							'DB_SERVER'		=>	$_POST['db_server'],
-							'DB_NAME'		=>	$_POST['db_name'],
-							'DB_USERNAME'	=>	$_POST['db_username'],
-							'DB_PASSWORD'	=>	$_POST['db_password']
+						# Connect
+						$db= array(
+								'DB_SERVER'		=>	$_POST['db_server'],
+								'DB_NAME'		=>	$_POST['db_name'],
+								'DB_USERNAME'	=>	$_POST['db_username'],
+								'DB_PASSWORD'	=>	$_POST['db_password']
 						);
 						
 						if ( !$manager->clerk->dbConnect( $db ) )
@@ -88,7 +88,7 @@
 						$manager->clerk->preserve_vars( "db_password, password" );
 						$_POST= $manager->clerk->clean( $_POST );
 
-						// Write config file
+						# Write config file
 						$error		=	false;
 						$config		= 	fopen( SYSTEM . "assistants/config.inc.php", "w+");
 						$write		= 	array(
@@ -114,7 +114,7 @@
 
 						fclose( $config );
 						
-						// Write site file
+						# Write site file
 						$error				=	false;
 						$site_file			= 	fopen( BASE_PATH . "site/site.php", "w+" );
 						$site_file_contents	= 	array(
@@ -135,12 +135,12 @@
 
 						fclose( $site_file );
 
-						// Open SQL file
+						# Open SQL file
 						$dump	=	fopen( "system/install_assets/setup.sql", "r" ); 
 						$file 	= 	fread( $dump, 80000 ); 
-						fclose($dump); 
+						fclose( $dump ); 
 
-						// Split into separate queries 
+						# Split into separate queries 
 						$lines 	= explode( ';',  $file );
 						$count 	= count( $lines );
 						$queries= array();
@@ -149,7 +149,7 @@
 							$queries[]= trim( $line );
 						}
 
-						// Execute the queries
+						# Execute the queries
 						$count= 0;
 						foreach ( $queries as $q )
 						{
@@ -162,9 +162,12 @@
 							}
 						}
 						
+						# Re-initialize
+						$manager->clerk->disconnect();
+						$manager->clerk->dbConnect( $db );
 						$manager->clerk->loadSettings();
 						
-						// Create user
+						# Setup user
 						$username	=	$_POST['username'];
 						$password	=	sha1( $_POST['password'] );
 						$email		=	$_POST['email'];
@@ -172,11 +175,16 @@
 						$siteUrl	=	"http://" . str_replace( "http://", "", $_POST['site_url'] );
 						$siteUrl	=	( strrchr( $siteUrl, "/" ) == "/" ) ? substr( $siteUrl, 0, strrchr( $siteUrl, "/" ) - 1 ) : $siteUrl;
 						
-						$manager->clerk->query_insert( "users", "username, password, email", "'$username', '$password', '$email'" );
+						# Create user if it doesn't exist already
+						# Sometimes an install error means the installer has to be run again
+						# resulting in duplicates.
+						if ( $manager->clerk->query_countRows( "users", "WHERE username= '$username' AND password= '$password'" ) == 0 )
+							$manager->clerk->query_insert( "users", "username, password, email", "'$username', '$password', '$email'" );
 						
+						# Update settings
 						$manager->clerk->updateSettings(
 							array(
-								'app'						=>	array( 2.2 ),
+								'app'						=>	array( "2.3", "", "" ),
 								'site'						=>	array( $_POST['site_name'], $siteUrl ),
 								'projects_path'				=>	array( BASE_PATH . 'files/projects/', BASE_URL . 'files/projects/' ),
 								'cache_path'				=>	array( BASE_PATH . "files/cache/", BASE_URL . "files/cache/", 0 ),
@@ -188,6 +196,7 @@
 							)
 						);
 						
+						# Send password confirmation email
 						$subject = 'The Secretary Username & Password';
 						$message = 'Hello! You have just installed The Secretary. So you don\'t forget, your username is "' . $username . '" and your password is "' . $_POST['password'] . '".';
 						$headers = 'From: secretarybot' . "\r\n" .
@@ -209,7 +218,7 @@
 						}
 						else
 						{
-						echo $manager->message( 1, false, 'Congratulations, The Secretary was successfully installed!<br /><br />Your website file has been created and can be found at <em>' . BASE_URL . 'site/site.php</em>. In order for your Secretary-powered website to work, please move it to <em>' . $siteUrl . '</em> and rename it <em>index.php</em>. <br /><br />For security reasons, you should delete this file (install.php). After you have done that, you may <a href="login.php">login</a>.' );
+							echo $manager->message( 1, false, 'Congratulations, The Secretary was successfully installed!<br /><br />Your website file has been created and can be found at <em>' . BASE_URL . 'site/site.php</em>. In order for your Secretary-powered website to work, please move it to <em>' . $siteUrl . '</em> and rename it <em>index.php</em>. <br /><br />For security reasons, you should delete this file (install.php). After you have done that, you may <a href="login.php">login</a>.' );
 						}
 						// unlink( __FILE__ );
 					}
