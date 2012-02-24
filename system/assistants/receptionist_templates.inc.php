@@ -17,7 +17,7 @@ $receptionist_templates["row_start"]= <<<HTML
 HTML;
 
 $receptionist_templates["error_message"]= <<<HTML
-<span class="error_message">{message}</span><br>
+<span class="error_message">{message}</span><br />
 HTML;
 
 $receptionist_templates["row_end"]= <<<HTML
@@ -33,7 +33,7 @@ $receptionist_templates["textSuperLong"]= <<<HTML
 HTML;
 
 $receptionist_templates["caption_template"]= <<<HTML
-<span class="caption">{caption_message}</span><br />
+<span class="caption">{caption_message}</span>
 HTML;
 
 $receptionist_templates["tooltip_template"]= <<<HTML

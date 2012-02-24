@@ -1,6 +1,7 @@
 <?php
 	// Define anchors
-	define_anchor( "pagesManage" );
+	define_anchor( "pages_manage_after_text" );
+	define_anchor( "pages_manage_after_type" );
 	define_anchor( "pageContentTypes" );
 	
 	// Load required helpers
@@ -188,6 +189,7 @@
 		
 		$manager->form->set_template( "textarea_template", "textareaWithEditor", true );
 		$manager->form->add_textarea( "text", "Text", "15", "", $data['text'] );
+		$manager->form->reset_template( "textarea_template");
 		
 		call_anchor( "pages_manage_after_text", $data );
 		
@@ -198,8 +200,6 @@
 		$manager->form->add_to_form( '</div><div class="col-2 last">' );
 		
 		$manager->form->add_fieldset( "Page Type", "pageType" );
-		
-		$manager->form->message( 'The page type has great power. Find out how to use it in the official <a href="http://www.secretarycms.com/guide/general-usage/pages/the-page-type-option" class="external">User Guide</a>.' );
 		
 		$manager->form->set_template( "text_template", "textSuperLong", true );
 		$manager->form->set_template( "select_template", "selectLong", true );
@@ -219,13 +219,16 @@
 		$contentTypes= call_anchor( "pageContentTypes", $contentTypes );
 		$selectedType= ( empty( $data['content_type'] ) ) ? "None" : $data['content_type'];
 		
-		$manager->form->add_select( "content_type", "Type / Module", $contentTypes, $selectedType );
+		$manager->form->add_select( "content_type", "Type", $contentTypes, $selectedType, "Choose the type of content you would like to attach to this page." );
 		
-		$manager->form->add_input( "text", "content_options", "Options", $data['content_options'] );
+		$manager->form->add_input( "text", "content_options", "Options", $data['content_options'], "", "Enter a comma separated list of options" );
 		
 		$manager->form->reset_template( "text_template" );
 		$manager->form->reset_template( "select_template" );
-		$manager->form->reset_template( "textarea_template");
+		
+		$manager->form->message( 'Need help with this? Read the <a href="http://help.secretarycms.com/kb/faq/what-is-the-page-type-and-how-do-i-use-it" class="external">how to</a> in the User Guide.' );
+		
+		call_anchor( "pages_manage_after_type", $data );
 		
 		$manager->form->close_fieldset();
 		$manager->form->add_to_form( '</div>' );

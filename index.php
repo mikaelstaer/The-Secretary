@@ -13,11 +13,11 @@
 	
 	# Simple content management.
 	
-	# @author     Mikael Stær <info@thesecretary.org>
-	# @version    2.3 2012-02-20
+	# @author     Mikael Staer <info@thesecretary.org>
+	# @version    2.3 2012-02-24
 	# @license    http://www.gnu.org/licenses/gpl-3.0.txt	GPL
 	
-	header('Content-type: text/html; charset=utf-8');
+	header( 'Content-type: text/html; charset=utf-8' );
 	
 	if ( !isset($_GET['debug']) )
 		error_reporting(0);
@@ -25,7 +25,7 @@
 	ob_start();
 
 	define( 'VERSION', '2.3' );
-	define( 'VERSION_DATE', '2012' );
+	define( 'VERSION_DATE', '2012-02-24' );
 	define( "BASE_PATH", dirname( $_SERVER["SCRIPT_FILENAME"] ) . "/" );
 	define( "BASE_URL", str_replace( basename(__FILE__), "", $_SERVER['SCRIPT_URI'] ) );
 	define( "SYSTEM" , BASE_PATH  . "system/" );
@@ -88,7 +88,7 @@
 						?>
 						<h1><?php echo $manager->office->make_breadcrumb(); ?> <span class="active"><?php call_anchor( "breadcrumbActive" ); ?></span></h1>
 						<div id="appTitle">
-							<a href="http://www.secretarycms.com">The Secretary</a>
+							<a href="http://www.thesecretary.org">The Secretary</a>
 						</div>
 						<?php
 							/*else:

@@ -284,26 +284,32 @@
 		$this->add_to_form($this->parse($template, $vars, $name));
 	}
 	
-	public function add_textarea ($name, $label, $rows= "5", $cols= "100", $defaultValue= "{erase defv}", $caption= "{erase capt}", $tooltip= "{erase tt}") {
-		if ($tooltip== "{erase tt}" || empty($tooltip))
-			$tooltip_templ= "{erase ttempl}";
+	public function add_textarea ($name, $label, $rows= "5", $cols= "100", $defaultValue= "{erase}", $caption= "{erase}", $tooltip= "{erase}") {
+		if ($tooltip== "{erase}" || empty($tooltip))
+			$tooltip_templ= "{erase}";
 		else
 			$tooltip_templ= $this->templates['tooltip_template'];
 		
+		if ($caption== "{erase}" || empty($caption))
+			$caption_templ= "{erase}";
+		else
+			$caption_templ= $this->templates['caption_template'];
+					
 		if (empty($rows))
 			$rows= "5";
 		if (empty($cols))
 			$cols= "50";
 			
 		$vars= array(
-			"$tooltip_templ" => "{tooltip}",
-			"$tooltip" => "{tooltip_message}",
-			// "$error_message" => "{error_message}",
-			"$name" => "{name}",
-			"$label" => "{label}",
-			"$rows" => "{rows}",
-			"$cols" => "{cols}",
-			"$caption" => "{caption}",
+			"$tooltip_templ" 	=> 	"{tooltip}",
+			"$tooltip" 			=> 	"{tooltip_message}",
+			"$type"				=>	"{type}",
+			"$name" 			=> 	"{name}",
+			"$label" 			=> 	"{label}",
+			"$caption_templ"	=>	"{caption}",
+			"$caption" 			=> 	"{caption_message}",
+			"$rows" 			=> "{rows}",
+			"$cols" 			=> "{cols}"
 		);
 		
 		$vars[$this->saved($name, $defaultValue)]= "{defaultValue}";
@@ -317,25 +323,31 @@
 			$template.= $this->templates["row_end"];
 		
 		// Parse and add to form.
-		//	
 		$this->add_to_form($this->parse($template, $vars, $name));
 	}
 
-	public function add_select ($name, $label, $options, $defaultValue= "{erase defv}", $caption= "{erase capt}", $tooltip= "{erase tt}") {
-		if ($tooltip== "{erase tt}" || empty($tooltip))
-			$tooltip_templ= "{erase ttempl}";
+	public function add_select ($name, $label, $options, $defaultValue= "{erase defv}", $caption= "{erase}", $tooltip= "{erase}") {
+		if ($tooltip== "{erase}" || empty($tooltip))
+			$tooltip_templ= "{erase}";
 		else
 			$tooltip_templ= $this->templates['tooltip_template'];
+		
+		if ($caption== "{erase}" || empty($caption))
+			$caption_templ= "{erase}";
+		else
+			$caption_templ= $this->templates['caption_template'];
 			
 		$vars= array(
-			"$tooltip_templ" => "{tooltip}",
-			"$tooltip" => "{tooltip_message}",
-			"$name" => "{name}",
-			"$label" => "{label}",
-			"$caption" => "{caption}",
+			"$tooltip_templ" 	=> 	"{tooltip}",
+			"$tooltip" 			=> 	"{tooltip_message}",
+			"$type"				=>	"{type}",
+			"$name" 			=> 	"{name}",
+			"$label" 			=> 	"{label}",
+			"$caption_templ"	=>	"{caption}",
+			"$caption" 			=> 	"{caption_message}"
 		);
 	
-	if ($label != NULL)
+		if ($label != NULL)
 			$template= $this->templates["row_start"];
 
 		$template.= $this->templates["select_template"];
@@ -349,7 +361,6 @@
 		
 		if ( !empty( $options ) )
 		foreach ($options as $key=>$val) {
-			// echo $key."=>".$val."<br />";
 			$optvars[$key]= "{key}";
 			$optvars[$val]= "{val}";
 			
@@ -385,7 +396,7 @@
 		$vars= array(
 			"$text" 	=> "{legend}",
 			"$id" 		=> "{id}",
-			"$extra"	=>	"{extra}"
+			"$extra"	=> "{extra}"
 		);
 		
 		$template= $this->templates['fieldset'];

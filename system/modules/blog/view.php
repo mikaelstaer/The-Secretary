@@ -1,14 +1,16 @@
 <?php
-	$blog= "";
+	$blog				= "";
+	$blog_query_details	= array();
 	
 	// Paths
-	$paths= $clerk->getSetting( "blog_path" );
+	$paths = $clerk->getSetting( "blog_path" );
+	
 	define( "BLOG_PATH", $paths['data1'] );
 	define( "BLOG_URL", $paths['data2'] );
 	
 	function blog( $options= "" )
 	{
-		global $clerk, $blog;
+		global $clerk, $blog, $blog_query_details;
 		
 		if ( !is_array( $options ) )
 		{
@@ -77,6 +79,16 @@
 		
 		$options['orderHow']= strtoupper( $options['orderHow'] );
 		
+		# Pagination
+		$blog_query_details['limit'] = $options['limit'];
+		
+		if ( isset( $_GET['p'] ) )
+		{
+			$page				= ( !is_numeric( $_GET['p']) ) ? 1 : (int) $_GET['p'];
+			$offset				= ( $page - 1 ) * $options['limit'];
+			$options['limit']	= " $offset, " . $options['limit'];
+		}
+		
 		$order= ( $options['order'] == "random" ) ? "ORDER BY rand()" : "ORDER BY " . $options['order'] . " " . $options['orderHow'];
 		$limit= ( empty( $options['limit'] ) ) ? "" : "LIMIT " . $options['limit'];
 		
@@ -84,15 +96,17 @@
 		
 		ob_start();
 		
-		if ( empty( $options['id'] ) && projectSelected() )
+		if ( empty( $options['id'] ) && postSelected() )
 		{
 			$get= $clerk->query_select( "secretary_blog", "", "$where $order $limit" );
 			while ( $blog= $clerk->query_fetchArray( $get ) )
 			{
 				include HQ . "site/themes/" . THEME . "/templates/" . $options['template'];
 			}
+			
+			$blog_query_details['total']= $clerk->query_countRows( $get );
 		}
-		elseif ( !empty( $options['id'] ) && projectSelected() )
+		elseif ( !empty( $options['id'] ) && postSelected() )
 		{
 			$options['template']= "blog_view.html";
 			
@@ -104,7 +118,9 @@
 		}
 		else
 		{	
-			$get= $clerk->query_select( "secretary_blog", "", "$where $order $limit" );
+			$get = $clerk->query_select( "secretary_blog", "", "$where $order $limit" );
+			$blog_query_details['total'] = $clerk->query_numRows( $clerk->query_select( "secretary_blog", "", $where ) );
+			
 			while ( $blog= $clerk->query_fetchArray( $get ) )
 			{
 				include HQ . "site/themes/" . THEME . "/templates/" . $options['template'];
@@ -188,7 +204,7 @@
 		return str_replace( "{more}", '<a name="more"></a>', $post['modified'] );
 	}
 	
-	function post_text_short()
+	function post_excerpt()
 	{
 		global $blog;
 		
@@ -212,7 +228,7 @@
 	
 	function postText()
 	{
-		return post_text_short();
+		return post_excerpt();
 	}
 	
 	function postDate( $format= "d. F Y" )
@@ -281,7 +297,7 @@
 			return dynamicThumbnail( $thumbnail, $location, $width, $height, $intelliScaling, "small" );
 		}
 	}
-
+	
 	function postInfo( $id= "" )
 	{
 		global $clerk, $blog;
@@ -364,5 +380,156 @@
 		}
 
 		$feed->genarateFeed();
+	}
+	
+	function next_post ( $return_data = false )
+	{
+		global $clerk, $blog;
+		
+		$post_list		= array();
+		$current_post	= postInfo( selectedPost() );
+		$current_index	= 0;
+		$count			= 0;
+	
+		$page 			= pageInfo( currentPage() );
+		$options 		= prepare_settings( $page['content_options'] );
+		$defaults 		= array(
+				'order'		=> 'date',
+				'orderHow'	=> 'desc'
+		);
+		
+		$options		= merge_settings( $options, $defaults );
+		$posts 			= $clerk->query_select( "secretary_blog", "", "WHERE status= 1 ORDER BY {$options['order']} {$options['orderHow']}" );
+		
+		while ( $post= $clerk->query_fetchArray( $posts ) )
+		{
+			$post_list[] = $post;
+			if ( $post['id'] == $current_post['id'] ) {
+				$current_index= $count;
+			}
+			
+			$count++;
+		}
+		
+		if ( $current_index == count( $post_list ) - 1 ) {
+			$next_post= $post_list[0];
+		} else {
+			$next_post= $post_list[$current_index + 1];
+		}
+		
+		if ( $return_data ) {
+			$next_post['link']= post_link( false, $next_post['id'] );
+			return $next_post;
+		}
+		
+		return post_link( false, $next_post['id'] );
+	}
+	
+	function prev_post( $return_data = false )
+	{
+		global $clerk, $blog;
+		
+		$post_list		= array();
+		$current_post	= postInfo( selectedPost() );
+		$current_index	= 0;
+		$count			= 0;
+		
+		$page 			= pageInfo( currentPage() );
+		$options 		= prepare_settings( $page['content_options'] );
+		$defaults 		= array(
+				'order'		=> 'date',
+				'orderHow'	=> 'desc'
+		);
+		
+		$options		= merge_settings( $options, $defaults );
+		$posts 			= $clerk->query_select( "secretary_blog", "", "WHERE status= 1 ORDER BY {$options['order']} {$options['orderHow']}" );
+		
+		while ( $post= $clerk->query_fetchArray( $posts ) )
+		{
+			$post_list[] = $post;
+			if ( $post['id'] == $current_post['id'] ) {
+				$current_index= $count;
+			}
+			
+			$count++;
+		}
+		
+		if ( $current_index == 0 ) {
+			$prev_post= $post_list[count( $post_list ) - 1];
+		} else {
+			$prev_post= $post_list[$current_index - 1];
+		}
+		
+		if ( $return_data ) {
+			$prev_post['link']= post_link( false, $prev_post['id'] );
+			return $prev_post;
+		}
+		
+		return post_link( false, $prev_post['id'] );
+	}
+	
+	function blog_pagination()
+	{
+		global $clerk, $blog_query_details;
+		
+		if ( $blog_query_details['limit'] == 0 || empty( $blog_query_details['limit'] ) ) return;
+		
+		$clean_urls		= (bool) $clerk->getSetting( "clean_urls", 1 );
+		$total			= $blog_query_details['total'];
+		$total_pages 	= ceil( $total / $blog_query_details['limit'] );
+		$currentpage	= ( !isset( $_GET['p'] ) || !is_numeric( $_GET['p']) ) ? 1 : (int) $_GET['p'];
+		
+		if ( $total_pages <= 1 ) return;
+		
+		for ( $i= 1; $i <= $total_pages; $i++ )
+		{
+			if ( $i == $currentpage ) $selected = ' class="active"';
+			$links 		.= '<a href="';
+			$links 		.= ( $clean_urls == true ) ? $clerk->getSetting( "site", 2 ) . '/' . PAGE . '/page/' . $i : $clerk->getSetting( "site", 2 ) . '?' . getRemappedVar( "pages" ) . '=' . PAGE . '&amp;p=' . $i;
+			$links 		.= '"' . $selected . '>' . $i . '</a> ';
+			$selected 	 = "";
+		}
+		
+		return $links;
+	}
+	
+	function blog_next_page()
+	{
+		global $clerk, $blog_query_details;
+		
+		if ( $blog_query_details['limit'] == 0 || empty( $blog_query_details['limit'] ) ) return false;
+		
+		$clean_urls		= (bool) $clerk->getSetting( "clean_urls", 1 );
+		$total			= $blog_query_details['total'];
+		$total_pages 	= ceil( $total / $blog_query_details['limit'] );
+		$currentpage	= ( !isset( $_GET['p'] ) || !is_numeric( $_GET['p']) ) ? 1 : (int) $_GET['p'];
+		
+		if ( $total_pages <= 1 ) return false;
+		
+		if ( $currentpage != $total_pages )
+		{
+			$nextpage = $currentpage + 1;
+		   	return ( $clean_urls == true ) ? $clerk->getSetting( "site", 2 ) . '/' . PAGE . '/page/' . $nextpage : $clerk->getSetting( "site", 2 ) . '?' . getRemappedVar( "pages" ) . '=' . PAGE . '&amp;p=' . $nextpage;
+		}
+	}
+	
+	function blog_prev_page()
+	{
+		global $clerk, $blog_query_details;
+		
+		if ( $blog_query_details['limit'] == 0 || empty( $blog_query_details['limit'] ) ) return false;
+		
+		$clean_urls		= (bool) $clerk->getSetting( "clean_urls", 1 );
+		$total			= $blog_query_details['total'];
+		$total_pages 	= ceil( $total / $blog_query_details['limit'] );
+		$currentpage	= ( !isset( $_GET['p'] ) || !is_numeric( $_GET['p']) ) ? 1 : (int) $_GET['p'];
+		
+		if ( $total_pages <= 1 ) return false;
+		
+		if ( $currentpage > 1 )
+		{
+			$prevpage = $currentpage - 1;
+			return ( $clean_urls == true ) ? $clerk->getSetting( "site", 2 ) . '/' . PAGE . '/page/' . $prevpage : $clerk->getSetting( "site", 2 ) . '?' . getRemappedVar( "pages" ) . '=' . PAGE . '&amp;p=' . $prevpage;
+		}
 	}
 ?>

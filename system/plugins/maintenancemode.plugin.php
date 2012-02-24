@@ -41,8 +41,6 @@
 		{
 			// User is not logged in - show maintenance page
 			$layout= "maintenance";
-			// echo call_anchor( "maintenanceModeMsg", "Down for maintenance! Will return shortly." );
-			// exit;
 		}
 	}
 ?>

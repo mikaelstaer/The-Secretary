@@ -1,8 +1,8 @@
 ***
 
 THE SECRETARY
-A portfolio management system for designers.
-Version 2.3 / January 24 2012
+Simple content management.
+Version 2.3 / February 24 2012
 www.thesecretary.org
 
 ***
@@ -29,7 +29,7 @@ the following:
 
 ***
 
-UPGRADING INSTRUCTIONS : READ CAREFULLY!
+UPGRADING INSTRUCTIONS 2.2.1 - 2.3 : READ CAREFULLY!
 
 1. Backup "config.inc.php" in the "assistants" folder.
 

@@ -210,4 +210,13 @@
 		
 		return $pages;
 	}
+
+	function page_type()
+	{
+		global $page;
+
+		$info= pageInfo( PAGE );
+		
+		return $info['content_type'];
+	}
 ?>

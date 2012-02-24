@@ -113,7 +113,7 @@ HTML;
 			<script type="text/javascript" charset="utf-8">
 				jQuery(window).load( function()
 				{
-					$("#{$project['slug']}-{$group['num']} .slides").cycle(
+					jQuery("#{$project['slug']}-{$group['num']} .slides").cycle(
 						{
 							fx: '{$opts['fx']}',
 							slideExpr: '.file',
@@ -123,13 +123,13 @@ HTML;
 							prev: '#{$project['slug']}-{$group['num']} .prev',
 							prevNextClick: function(isNext, index, el)
 							{
-								$("#{$project['slug']}-{$group['num']} .currentSlide").text(index + 1);
+								jQuery("#{$project['slug']}-{$group['num']} .currentSlide").text(index + 1);
 							},
 							before: function(curr, next, opts, fwd)
 							{
-								var ht = $(next).height();
+								var ht = jQuery(next).height();
 
-							 	$(this).parent().animate({height: ht});
+							 	jQuery(this).parent().animate({height: ht});
 							}
 							{$jquery_slideshow_opts['js']}
 						}

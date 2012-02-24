@@ -50,7 +50,7 @@
 				'tags'			=>	'',
 				'section'		=>	'',
 				'sticky'		=>	'true',
-				'order'			=>	'custom',
+				'order'			=>	'pos',
 				'orderHow'		=>	'asc',
 				'limit'			=>	''
 		);
@@ -76,7 +76,6 @@
 			return;
 		}
 		
-		$options['order']= ( $options['order'] == "custom" ) ? "pos" : $options['order'];
 		$options['orderHow']= strtoupper( $options['orderHow'] );
 
 		// Handle tags option
@@ -464,7 +463,12 @@
 		return ( !empty( $_GET[getRemappedVar("projects")] ) || !empty( $_GET['id'] ) );
 	}
 	
-	function linkToProject( $projectId= "")
+	function projectLink( $project_id= "" )
+	{
+		return linkToProject( $project_id );
+	}
+	
+	function linkToProject( $projectId= "" )
 	{
 		global $clerk, $project;
 		
@@ -500,7 +504,7 @@
 	{
 		global $clerk, $project;
 		
-		return ( empty( $project ) == false ) ? $project : $clerk->query_fetchArray( $clerk->query_select( "projects", "", "WHERE id= '$projectId' OR slug= '$projectId'" ) );
+		return ( empty( $projectId ) ) ? $project : $clerk->query_fetchArray( $clerk->query_select( "projects", "", "WHERE id= '$projectId' OR slug= '$projectId'" ) );
 	}
 	
 	function projectList( $template= "" )
@@ -591,28 +595,28 @@
 		return $contents;
 	}
 	
-	function projectThumbnail()
+	function projectThumbnail( $project_id= "" )
 	{
 		global $clerk, $project;
 		
-		if ( empty( $project['thumbnail'] ) )
-		{
+		$proj= ( empty( $project_id ) == false ) ? projectInfo( $project_id ) : $project;
+
+		if ( empty( $proj['thumbnail'] ) ) {
 			return '';
-		}
-		else
-		{
+
+		} else {
 			if ( $clerk->getSetting( "resizeProjThumb", 1 ) == 0 )
 			{
-				list( $width, $height )= getimagesize( PROJECTS_PATH . $project['slug'] . "/" . $project['thumbnail'] );
-				return '<img src="' . PROJECTS_URL . $project['slug'] . "/" . $project['thumbnail'] . '" width="' . $width . '" height="' . $height . '" alt="" />';
+				list( $width, $height )= getimagesize( PROJECTS_PATH . $proj['slug'] . "/" . $proj['thumbnail'] );
+				return '<img src="' . PROJECTS_URL . $proj['slug'] . "/" . $proj['thumbnail'] . '" width="' . $width . '" height="' . $height . '" alt="" />';
 			}
 			else
 			{
-				$thumbnail= $project['thumbnail'];
+				$thumbnail= $proj['thumbnail'];
 				$width= $clerk->getSetting( "projects_thumbnail", 1 );
 				$height= $clerk->getSetting( "projects_thumbnail", 2 );
 				$intelliScaling= $clerk->getSetting( "projects_thumbnailIntelliScaling", 1 );
-				$location= PROJECTS_PATH . $project['slug'] . "/";
+				$location= PROJECTS_PATH . $proj['slug'] . "/";
 				
 				return dynamicThumbnail( $thumbnail, $location, $width, $height, $intelliScaling );
 			}
@@ -672,6 +676,11 @@
 		$quick_replace	=	array( "-" );
 
 		return str_replace( $quick_search, $quick_replace, $tag );
+	}
+	
+	function projectTagLink( $tag )
+	{
+		return linkToProjectTag( $tag );
 	}
 	
 	function linkToProjectTag( $tag )
@@ -809,6 +818,7 @@
 
 		$page= pageInfo( currentPage() );
 		$options= prepare_settings( $page['content_options'] );
+		
 		$section= $clerk->query_fetchArray( $clerk->query_select( "project_sections", "", "WHERE name= '{$options['section']}' OR slug= '{$options['section']}' OR id='{$options['section']}'" ) );
 		$section= $section['id'];
 		
@@ -844,7 +854,7 @@
 		}
 		
 		$nextProject= $orderedProjects[$currentIndex + 1];
-		
+
 		if ( $returnData )
 		{
 			$nextProject['link']= linkToProject( $nextProject['id'] );
@@ -900,15 +910,19 @@
 			}
 		}
 		
-		$prevProject= $orderedProjects[$currentIndex - 1];
+		if ( $currentIndex == 0 ) {
+			$prevProject= $orderedProjects[count( $orderedProjects ) - 1];
+		} else {
+			$prevProject= $orderedProjects[$currentIndex - 1];
+		}
 		
 		if ( $returnData )
 		{
 			$prevProject['link']= linkToProject( $prevProject['id'] );
 			return $prevProject;
 		}
-			
-		return ( $currentIndex != 0 ) ? linkToProject( $prevProject['id'] ) : linkToProject( $orderedProjects[count( $orderedProjects ) - 1]['id'] );
+		
+		return linkToProject( $prevProject['id'] );
 	}
 	
 	function projectDate( $format= "d. F Y" )
