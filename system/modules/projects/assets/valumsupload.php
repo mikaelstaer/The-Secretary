@@ -168,6 +168,7 @@ class qqUploadedFileXhr {
     function save($path) {    
         $input = fopen("php://input", "r");
         $temp = tmpfile();
+        if ( empty( $temp ) ) $temp= tempnam();
         $realSize = stream_copy_to_stream($input, $temp);
         fclose($input);
         
