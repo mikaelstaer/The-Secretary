@@ -24,7 +24,7 @@
 				<div id="title">
 					<a href="<?php echo linkToSite(); ?>"><h1><?php echo siteTitle()?></h1></a>
 				</div>
-				<!-->
+				<!--
 				<div id="subtitle">
 					An optional subtitle.
 				</div>

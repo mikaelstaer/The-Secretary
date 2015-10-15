@@ -226,7 +226,7 @@
 		$manager->form->reset_template( "text_template" );
 		$manager->form->reset_template( "select_template" );
 		
-		$manager->form->message( 'Need help with this? Read the <a href="http://help.secretarycms.com/kb/faq/what-is-the-page-type-and-how-do-i-use-it" class="external">how to</a> in the User Guide.' );
+		$manager->form->message( 'Need help with this? Read the <a href="http://help.thesecretary.org/kb/faq/what-is-the-page-type-and-how-do-i-use-it" class="external">how to</a> in the User Guide.' );
 		
 		call_anchor( "pages_manage_after_type", $data );
 		
