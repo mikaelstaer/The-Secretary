@@ -298,8 +298,8 @@
 	
 	function getGroupInfo( $string )
 	{
-		$groupNum	=	preg_replace( '/(group)([0-9])(:)*([a-zA-Z0-9-_]+)?/', '$2', $string );
-		$groupType	=	preg_replace( '/(group)([0-9])(:)*([a-zA-Z0-9-_]+)?/', '$4', $string );
+		$groupNum	=	preg_replace( '/(group)([0-9]+)(:)*([a-zA-Z0-9-_]+)?/', '$2', $string );
+		$groupType	=	preg_replace( '/(group)([0-9]+)(:)*([a-zA-Z0-9-_]+)?/', '$4', $string );
 		
 		return array(
 					"num"	=>	$groupNum,
