@@ -52,7 +52,8 @@
 			}
 			else 
 			{
-				if ( $manager->clerk->query_edit( "users", "password= '" . sha1( $password ) . "'", "WHERE id= '" . $manager->guard->user('USER_ID') . "'" ) )
+				//hash password securely
+				if ( $manager->clerk->query_edit( "users", "password= '" . password_hash( $password, PASSWORD_DEFAULT) . "'", "WHERE id= '" . $manager->guard->user('USER_ID') . "'" ) )
 					$manager->message( 1, false, "Password changed!" );
 				else
 					$manager->message( 0, true, "Could not save your Settings!" );

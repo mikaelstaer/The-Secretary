@@ -169,7 +169,7 @@
 						
 						# Setup user
 						$username	=	$_POST['username'];
-						$password	=	sha1( $_POST['password'] );
+						$password	=	$_POST['password'];
 						$email		=	$_POST['email'];
 						
 						$siteUrl	=	"http://" . str_replace( "http://", "", $_POST['site_url'] );
@@ -178,8 +178,10 @@
 						# Create user if it doesn't exist already
 						# Sometimes an install error means the installer has to be run again
 						# resulting in duplicates.
-						if ( $manager->clerk->query_countRows( "users", "WHERE username= '$username' AND password= '$password'" ) == 0 )
-							$manager->clerk->query_insert( "users", "username, password, email", "'$username', '$password', '$email'" );
+						
+						//fix for security reasons
+						if ( $manager->clerk->query_countRows( "users", "WHERE username= '$username'" ) == 0 )
+							$manager->clerk->query_insert( "users", "username, password, email", "'$username',  password_hash( $password, PASSWORD_DEFAULT), '$email'" );
 						
 						# Update settings
 						$manager->clerk->updateSettings(

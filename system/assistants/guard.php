@@ -15,8 +15,9 @@
 		{
 			global $manager;
 			
-			$username	=	$_COOKIE["secretary_username"];
-			$password	= 	$_COOKIE["secretary_password"];
+			//Get username and password from session - for security reasons - replaced use of cookie
+			$username	=	$_SESSION["secretary_username"];
+			$password	= 	$_SESSION["secretary_password"];
 
 			$user		= 	$manager->clerk->query_fetchArray( $manager->clerk->query_select( "users", "", "WHERE username= '$username' AND password= '$password'" ) );
 			
@@ -56,9 +57,10 @@
 		public function validate_user()
 		{
 			global $manager;
-
-			$username	= 	$_COOKIE["secretary_username"];
-			$password	= 	$_COOKIE["secretary_password"];
+			
+			//Get username and password from session - for security reasons - replaced use of cookie
+			$username	= 	$_SESSION["secretary_username"];
+			$password	= 	$_SESSION["secretary_password"];
 			
 			if ( empty( $username ) || empty( $password ) )
 			{

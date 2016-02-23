@@ -14,8 +14,9 @@
 		$clerk= new Clerk( true );
 		$guard=	new Guard();
 		$manager= new Manager();
-
-		if ( !$guard->validate_user_extern( $clerk, $_COOKIE["secretary_username"], $_COOKIE["secretary_password"] ) )
+		
+		//get passwd and username from session not cookie - for security reasons
+		if ( !$guard->validate_user_extern( $clerk, $_SESSION["secretary_username"], $_SESSION["secretary_password"] ) )
 		{
 			die( "Back off!");
 		}

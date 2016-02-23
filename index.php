@@ -21,7 +21,8 @@
 	
 	if ( !isset($_GET['debug']) )
 		error_reporting(0);
-	
+	//securely start session
+	session_start();
 	ob_start();
 
 	define( 'VERSION', '2.3' );
