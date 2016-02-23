@@ -1,5 +1,6 @@
 <?php
 	if ( defined( "AJAX" ) && AJAX == true ):
+		session_start();
 		define( "BASE_PATH", $_POST['system']['path'] . "assistants/" );
 		define( "SYSTEM" , $_POST['system']['path']  );
 		define( "SYSTEM_URL" , $_POST['system']['url']  );
