@@ -3,8 +3,10 @@
 	
 	if ( !isset($_GET['debug']) )
 		error_reporting(0);
-	
-	if ( !empty( $_COOKIE['secretary_username'] ) && !empty( $_COOKIE['secretary_password'] ) )
+	//start session - security
+	session_start();
+	//check in session rather than cookie
+	if ( isset($_SESSION['secretary_username']) )
 		header( "Location: index.php" );
 		
 	ob_start();
@@ -33,21 +35,41 @@
 		// $_POST= $manager->clerk->clean( $_POST );
 
 		$username= $_POST["username"];
-		$password_encrypted= sha1($_POST["password"]);
+		//avoiding sql injection - security
+		$username = mysql_real_escape_string($username);
+		$row= $manager->clerk->query_select( "users", "", "WHERE username='$username'");
+	    	$num= $manager->clerk->query_numRows($row);
 		
-		$row= $manager->clerk->query_select( "users", "", "WHERE username='$username' AND password='$password_encrypted'" );
-	    $num= $manager->clerk->query_numRows($row);
-	
-		if ( $num == 1 )
+		$password_encrypted= mysql_result($row,0,'password');
+		//verify password - for security reasons
+		if ( $num == 1 && password_verify($_POST["password"], $password_encrypted))
 		{
-			if ( setcookie( "secretary_username", "$username", time() + ( $manager->clerk->config( "COOKIE_TIME" ) ), $manager->clerk->config( "COOKIE_PATH" ) ) && setcookie( "secretary_password", "$password_encrypted", time() + ( $manager->clerk->config( "COOKIE_TIME" ) ), $manager->clerk->config( "COOKIE_PATH" ) ) )
-			{
-				header( "Location: index.php" );
-			}else
-				$manager->message( 0, false, 'Oh dear, cookies could not be set!' );
-
+			//set values in session not cookies - for added security
+			$_SESSION['secretary_username']="$username";
+			$_SESSION['secretary_password']= "$password_encrypted";
+			header( "Location: index.php" );
+			
 		}else
-			$manager->message( 0, false, "Sorry, that login information does not exist! Please try again." );
+		{
+			//for upgrading users - security reasons
+			$password_encrypted= sha1($_POST["password"]);
+		
+			$row= $manager->clerk->query_select( "users", "", "WHERE username='$username' AND password='$password_encrypted'" );
+		    	$num= $manager->clerk->query_numRows($row);
+	
+			if ( $num == 1 )
+			{	
+				//set more secure hash
+				$pass_new = password_hash( $_POST["password"], PASSWORD_DEFAULT);
+				$_SESSION['secretary_username']="$username";
+				$_SESSION['secretary_password']= "$pass_new";
+							
+				$manager->clerk->query_edit("users","password='$pass_new'",  "WHERE username='$username'");
+				header( "Location: index.php" );
+			}
+			else
+				$manager->message( 0, false, "Sorry, that login information does not exist! Please try again." );
+		}
 	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
