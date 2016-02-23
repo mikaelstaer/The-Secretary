@@ -15,7 +15,7 @@ APPLICATION REQUIREMENTS
 
 In order to use The Secretary, your host must support the following (if you are unsure, copy this list and send an email to your webhost's support):
 
-- PHP 5.3+
+- PHP 5.5+
 - MySQL 5+
 - Linux/Apache server
 - Allow mod_rewrite for clean URLs (if you wish to use them)
