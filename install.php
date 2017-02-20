@@ -1,16 +1,16 @@
 <?php
 	header('Content-type: text/html; charset=utf-8');
-	
+
 	if ( !isset($_GET['debug']) )
 		error_reporting(0);
-	
+
 	ob_start();
-	
+
 	define( 'BASE_PATH', dirname( $_SERVER["SCRIPT_FILENAME"] ) . "/" );
 	define( 'BASE_URL', "http://" . $_SERVER['SERVER_NAME'] . dirname( $_SERVER['REQUEST_URI'] ) . "/" );
 	define( "SYSTEM" , BASE_PATH  . "system/" );
 	define( "SYSTEM_URL", BASE_URL  . "system/" );
-	
+
 	require_once BASE_PATH . "system/assistants/utf8.php";
 	require_once BASE_PATH . "system/assistants/config.inc.php";
 	require_once BASE_PATH . "system/assistants/clerk.php";
@@ -18,7 +18,7 @@
 	require_once BASE_PATH . "system/assistants/receptionist.php";
 	require_once BASE_PATH . "system/assistants/office.php";
 	require_once BASE_PATH . "system/assistants/manager.php";
-	
+
 	$manager= new Manager();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -35,7 +35,7 @@
 			<div id="header">
 				<div id="navHolder">
 					<div id="nav" class="center">
-						
+
 					</div>
 				</div>
 				<div id="titleHolder">
@@ -54,19 +54,19 @@
 						echo $manager->message( 0, false, "You've already installed me! For security reasons you should delete this file." );
 						exit;
 					}
-					
+
 					if ( phpversion() < 5 )
 					{
 						echo $manager->message( 0, false, "Oh brutal! The Secretary requires PHP 5 or greater! You are running version ".phpversion()."." );
 						exit;
 					}
-					
+
 					$manager->form= new Receptionist( "input", "post", $manager->office->URIquery(), "submit", "multipart/form-data", "process" );
 					$manager->form->save_state();
 				?>
 			</div>
 			<div id="app" class="center">
-				<?php					
+				<?php
 					function process()
 					{
 						global $manager;
@@ -78,13 +78,13 @@
 								'DB_USERNAME'	=>	$_POST['db_username'],
 								'DB_PASSWORD'	=>	$_POST['db_password']
 						);
-						
+
 						if ( !$manager->clerk->dbConnect( $db ) )
 						{
 							echo $manager->message( 0, false, "Uh-oh! A test connection to your database could not be made. Double check your info." );
 							return;
 						}
-						
+
 						$manager->clerk->preserve_vars( "db_password, password" );
 						$_POST= $manager->clerk->clean( $_POST );
 
@@ -113,7 +113,7 @@
 						}
 
 						fclose( $config );
-						
+
 						# Write site file
 						$error				=	false;
 						$site_file			= 	fopen( BASE_PATH . "site/site.php", "w+" );
@@ -136,11 +136,11 @@
 						fclose( $site_file );
 
 						# Open SQL file
-						$dump	=	fopen( "system/install_assets/setup.sql", "r" ); 
-						$file 	= 	fread( $dump, 80000 ); 
-						fclose( $dump ); 
+						$dump	=	fopen( "system/install_assets/setup.sql", "r" );
+						$file 	= 	fread( $dump, 80000 );
+						fclose( $dump );
 
-						# Split into separate queries 
+						# Split into separate queries
 						$lines 	= explode( ';',  $file );
 						$count 	= count( $lines );
 						$queries= array();
@@ -161,28 +161,30 @@
 								echo "Error! Line $count<br />$q<br />";
 							}
 						}
-						
+
 						# Re-initialize
 						$manager->clerk->disconnect();
 						$manager->clerk->dbConnect( $db );
+						// $manager->clerk->dbConnect();
 						$manager->clerk->loadSettings();
-						
+
 						# Setup user
 						$username	=	$_POST['username'];
 						$password	=	$_POST['password'];
 						$email		=	$_POST['email'];
-						
+
 						$siteUrl	=	"http://" . str_replace( "http://", "", $_POST['site_url'] );
 						$siteUrl	=	( strrchr( $siteUrl, "/" ) == "/" ) ? substr( $siteUrl, 0, strrchr( $siteUrl, "/" ) - 1 ) : $siteUrl;
-						
+
 						# Create user if it doesn't exist already
 						# Sometimes an install error means the installer has to be run again
 						# resulting in duplicates.
-						
+
 						//fix for security reasons
-						if ( $manager->clerk->query_countRows( "users", "WHERE username= '$username'" ) == 0 )
-							$manager->clerk->query_insert( "users", "username, password, email", "'$username',  password_hash( $password, PASSWORD_DEFAULT), '$email'" );
-						
+						if ( $manager->clerk->query_countRows( "users", "WHERE username= '$username'" ) == 0 ) {
+							password_hash( $password, PASSWORD_DEFAULT );
+							$manager->clerk->query_insert( "users", "username, password, email", "'$username', '$pass', '$email'" );
+						}
 						# Update settings
 						$manager->clerk->updateSettings(
 							array(
@@ -197,7 +199,7 @@
 								'blog_intelliscaling'		=>	array( "1", "", "" )
 							)
 						);
-						
+
 						# Send password confirmation email
 						$subject = 'The Secretary Username & Password';
 						$message = 'Hello! You have just installed The Secretary. So you don\'t forget, your username is "' . $username . '" and your password is "' . $_POST['password'] . '".';
@@ -205,7 +207,7 @@
 						    'Reply-To: code@nivr.net' . "\r\n" .
 
 						mail( $email, $subject, $message, $headers );
-						
+
 						if ( file_exists( BASE_PATH . "site/site.php" ) == false )
 						{
 							$code= '<pre>';
@@ -213,9 +215,9 @@
 							{
 								$code.= $line . "\n";
 							}
-							
+
 							$code.= '</pre>';
-							
+
 							echo message( "warning", 'The Secretary was <em>almost</em> successfully installed! You need to do one little thing before everything works as it should: create a file called index.php and paste the following into it:<br/>' . $code . '<br /><br />Upload this file to: ' . $siteUrl . '<br /><br />For security reasons, you should delete this file (install.php). After you have done that, you may <a href="login.php">login</a>.' );
 						}
 						else
@@ -224,24 +226,24 @@
 						}
 						// unlink( __FILE__ );
 					}
-					
+
 					$manager->form->message(
 						'<br /><br />Before you begin installing The Secretary, double-check that your host meets the <a href="http://www.secretarycms.com/guide/setup/application-requirements" class="external">requirements</a>. You must also have the connection information to your MySQL database (contact your webhost for this information if you do not have it). You will need the following information:
 						<br /><br />
-						- database host<br />	
+						- database host<br />
 						- database name<br />
 						- database username<br />
 						- database password<br /><br />
 						Make sure that you have changed the permissions (chmoded) on your Secretary folder and its contents (<em>' . str_replace( '/', '', dirname( $_SERVER['REQUEST_URI'] ) ) . '</em>) to 755. See the <a href="http://www.secretarycms.com/guide/setup/installation-instructions" class="external">installation instructions</a> for more details.
 						'
 					);
-					
+
 					$manager->form->draw();
-					
+
 					$manager->form->set_template( "row_start", "" );
 					$manager->form->set_template( "row_end", "" );
 				?>
-				
+
 				<div class="formButtons">
 					<div class="primary">
 						<?php
@@ -252,13 +254,13 @@
 					<div class="secondary">
 						<?php
 							$manager->form->draw();
-							
+
 							$manager->form->reset_template( "row_start" );
 							$manager->form->reset_template( "row_end" );
 						?>
 					</div>
 				</div>
-				
+
 				<?php
 					$manager->form->add_fieldset( "Database Information", "dbInfo" );
 					$manager->form->message( 'This information is very important and must be correct. If you are unsure what to enter into each field, contact your webhost and ask for your <strong>MySQL database information</strong>.' );
@@ -267,22 +269,22 @@
 					$manager->form->add_input( "text", "db_username", "Database Username" );
 					$manager->form->add_input( "password", "db_password", "Database Password" );
 					$manager->form->close_fieldset();
-					
+
 					$manager->form->add_fieldset( "Website Information", "websiteInfo" );
 					$manager->form->message( 'Enter the name and address of your website here. The address of your website should NOT be ' . BASE_URL . '. If you are installing Secretary in www.yourdomain.com/cms, then your website URL will most likely be www.yourdomain.com.' );
 					$manager->form->add_input( "text", "site_name", "Website Name" );
 					$manager->form->add_input( "text", "site_url", "Website URL / Address" );
 					$manager->form->close_fieldset();
-					
+
 					$manager->form->add_fieldset( "User Information", "userInfo" );
 					$manager->form->message( 'Enter your desired username and password to login to The Secretary.' );
 					$manager->form->add_input( "text", "username", "Username" );
 					$manager->form->add_input( "password", "password", "Password" );
 					$manager->form->add_input( "text", "email", "Your E-mail" );
 					$manager->form->close_fieldset();
-					
+
 					$manager->form->draw();
-					
+
 					$manager->form->add_rule( "db_server" );
 					$manager->form->add_rule( "db_name" );
 					$manager->form->add_rule( "db_username" );
@@ -293,28 +295,28 @@
 					$manager->form->add_rule( "password" );
 					$manager->form->add_rule( "email" );
 				?>
-				
+
 				<div class="formButtons">
 					<div class="primary">
 						<?php
 							$manager->form->set_template( "row_start", "" );
 							$manager->form->set_template( "row_end", "" );
-							
+
 							$manager->form->add_input( 'submit', 'submit', 'Submit', 'save' );
-							
+
 							$manager->form->draw();
 						?>
 					</div>
 					<div class="secondary">
 						<?php
 							$manager->form->draw();
-							
+
 							$manager->form->reset_template( "row_start" );
 							$manager->form->reset_template( "row_end" );
 						?>
 					</div>
 				</div>
-				<?php					
+				<?php
 					$manager->form->close();
 				?>
 			</div>

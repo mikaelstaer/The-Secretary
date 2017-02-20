@@ -1,6 +1,6 @@
 <?php
 	header('Content-type: text/html; charset=utf-8');
-	
+
 	if ( !isset($_GET['debug']) )
 		error_reporting(0);
 	//start session - security
@@ -8,14 +8,14 @@
 	//check in session rather than cookie
 	if ( isset($_SESSION['secretary_username']) )
 		header( "Location: index.php" );
-		
+
 	ob_start();
-	
+
 	define( "BASE_PATH", dirname( $_SERVER["SCRIPT_FILENAME"] ) . "/" );
 	define( "BASE_URL", str_replace( basename(__FILE__), "", $_SERVER['SCRIPT_URI'] ) );
 	define( "SYSTEM" , BASE_PATH  . "system/" );
 	define( "SYSTEM_URL", BASE_URL  . "system/" );
-	
+
 	require_once "system/assistants/config.inc.php";
 	require_once "system/assistants/utf8.php";
 	require_once "system/assistants/clerk.php";
@@ -23,24 +23,31 @@
 	require_once "system/assistants/receptionist.php";
 	require_once "system/assistants/office.php";
 	require_once "system/assistants/manager.php";
-	
+
 	$manager= new Manager();
 	$manager->clerk->dbConnect();
 	$manager->clerk->loadSettings();
-	
+
+
+	function mysqli_result($res, $row, $field=0) {
+    mysqli_data_seek($res, $row);
+    $datarow = $res->fetch_array();
+    return $datarow[$field];
+	}
+
 	function process()
 	{
 		global $manager;
-		
+
 		// $_POST= $manager->clerk->clean( $_POST );
 
 		$username= $_POST["username"];
 		//avoiding sql injection - security
-		$username = mysql_real_escape_string($username);
+		$username = mysqli_real_escape_string($manager->clerk->link, $username);
 		$row= $manager->clerk->query_select( "users", "", "WHERE username='$username'");
-	    	$num= $manager->clerk->query_numRows($row);
-		
-		$password_encrypted= mysql_result($row,0,'password');
+	  $num= $manager->clerk->query_numRows($row);
+
+		$password_encrypted= mysqli_result($row, 0, 'password');
 		//verify password - for security reasons
 		if ( $num == 1 && password_verify($_POST["password"], $password_encrypted))
 		{
@@ -48,22 +55,22 @@
 			$_SESSION['secretary_username']="$username";
 			$_SESSION['secretary_password']= "$password_encrypted";
 			header( "Location: index.php" );
-			
+
 		}else
 		{
 			//for upgrading users - security reasons
 			$password_encrypted= sha1($_POST["password"]);
-		
+
 			$row= $manager->clerk->query_select( "users", "", "WHERE username='$username' AND password='$password_encrypted'" );
 		    	$num= $manager->clerk->query_numRows($row);
-	
+
 			if ( $num == 1 )
-			{	
+			{
 				//set more secure hash
 				$pass_new = password_hash( $_POST["password"], PASSWORD_DEFAULT);
 				$_SESSION['secretary_username']="$username";
 				$_SESSION['secretary_password']= "$pass_new";
-							
+
 				$manager->clerk->query_edit("users","password='$pass_new'",  "WHERE username='$username'");
 				header( "Location: index.php" );
 			}
@@ -86,7 +93,7 @@
 			<div id="header">
 				<div id="navHolder">
 					<div id="nav" class="center">
-						
+
 					</div>
 				</div>
 				<div id="titleHolder">
@@ -104,7 +111,7 @@
 					$manager->form->save_state();
 				?>
 			</div>
-			
+
 			<div id="app" class="center">
 				<?php
 					$manager->form->add_input( "text", "username", "Username" );
@@ -120,10 +127,10 @@
 						<?php
 							$manager->form->set_template( "row_start", "" );
 							$manager->form->set_template( "row_end", "" );
-							
+
 							$manager->form->add_input( "submit", "submit", "Submit", "login" );
 							$manager->form->draw();
-							
+
 							$manager->form->reset_template( "row_start" );
 							$manager->form->reset_template( "row_end" );
 						?>

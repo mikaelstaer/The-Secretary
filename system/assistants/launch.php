@@ -12,10 +12,11 @@
 		require_once BASE_PATH . "office.php";
 		require_once BASE_PATH . "manager.php";
 
-		$clerk= new Clerk( true );
+		$clerk= new Clerk();
+		$db_link = $clerk->dbConnect();
 		$guard=	new Guard();
 		$manager= new Manager();
-		
+
 		//get passwd and username from session not cookie - for security reasons
 		if ( !$guard->validate_user_extern( $clerk, $_SESSION["secretary_username"], $_SESSION["secretary_password"] ) )
 		{
@@ -24,7 +25,7 @@
 
 		loadPlugins();
 
-		$_POST= $clerk->clean( $_POST );
+		$_POST= $clerk->clean( $_POST, $db_link );
 
 		$actions= explode( ",", $_POST['action']);
 		foreach ( $actions as $func )
@@ -51,7 +52,7 @@
 		$manager->guard->validate_user();
 
 		// Default anchors
-		$anchors= array( 	
+		$anchors= array(
 					"start"						=>	array(),
 					"head_tags"					=>	array(),
 					"css"						=>	array(),

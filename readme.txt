@@ -20,7 +20,7 @@ In order to use The Secretary, your host must support the following (if you are 
 - Linux/Apache server
 - Allow mod_rewrite for clean URLs (if you wish to use them)
 
-You must use a modern web browser when using the application. Internet Explorer is not supported. Outdated browsers are not supported. Try any of 
+You must use a modern web browser when using the application. Internet Explorer is not supported. Outdated browsers are not supported. Try any of
 the following:
 
 - Firefox (www.getfirefox.com)
@@ -29,7 +29,7 @@ the following:
 
 ***
 
-UPGRADING INSTRUCTIONS 2.2.1 - 2.3 : READ CAREFULLY!
+UPGRADING INSTRUCTIONS 2.3 - 2.4 : READ CAREFULLY!
 
 1. Backup "config.inc.php" in the "assistants" folder.
 
@@ -37,7 +37,7 @@ UPGRADING INSTRUCTIONS 2.2.1 - 2.3 : READ CAREFULLY!
 
 3. If you have any custom plugins or modules, make sure to back them up as well.
 
-4. Delete all files and folders in your Secretary folder, EXCEPT FOR THE "FILES" FOLDER.
+4. Delete all files and folders in your Secretary folder, EXCEPT FOR THE "FILES" FOLDER. Alternatively, make a backup of the “files” folder.
 
 5. Upload all the files and folders from the 2.2 download, EXCEPT FOR THE "FILES" FOLDER, to your Secretary folder. Your folder structure should look like this:
 
@@ -62,7 +62,7 @@ UPGRADING INSTRUCTIONS 2.2.1 - 2.3 : READ CAREFULLY!
 
 INSTALLATION INSTRUCTIONS
 
-Before you begin installing The Secretary double-check that your host meets the requirements. Second, you must have the connection information to your MySQL 
+Before you begin installing The Secretary double-check that your host meets the requirements. Second, you must have the connection information to your MySQL
 database (contact your webhost for this information if you do not have it). You will need the following information:
 
 - database host

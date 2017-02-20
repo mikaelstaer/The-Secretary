@@ -1,6 +1,6 @@
 <?php
 /**
- * A function for easily uploading files. This function will automatically generate a new 
+ * A function for easily uploading files. This function will automatically generate a new
  *        file name so that files are not overwritten.
  * Taken From: http://www.bin-co.com/php/scripts/upload_function/
  * Arguments:    $file_id- The name of the input field contianing the file.
@@ -12,12 +12,12 @@
  */
 function upload($file_id, $num, $folder="", $types="", $unique= false) {
     if(!$_FILES[$file_id]['name'][$num]) return array('','No file specified');
-	
+
     $file_title = $_FILES[$file_id]['name'][$num];
     //Get file extension
-    $ext_arr = split("\.",basename($file_title));
+    $ext_arr = explode(".",basename($file_title));
     $ext = "." . strtolower($ext_arr[count($ext_arr)-1]); //Get the last extension
-	
+    
 	if ( $unique == true )
 	{
     	//Not really uniqe - but for all practical reasons, it is
@@ -54,7 +54,7 @@ function upload($file_id, $num, $folder="", $types="", $unique= false) {
             $result .= " : File not writable.";
         }
         $file_name = '';
-        
+
     } else {
         if(!$_FILES[$file_id]['size'][$num]) { //Check if the file is made
             @unlink($uploadfile);//Delete the Empty file
