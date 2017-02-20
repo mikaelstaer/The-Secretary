@@ -102,7 +102,7 @@ You should also delete the install.php file after installing.
 
 STEP 6
 
-Login and double check your upload settings. You can do this by clicking under all settings panels in the Settings menu, and veryifying that the Upload Paths and Upload URLs are correct (so that you can upload images, audio and video and other files!).
+Login and double check your upload settings. You can do this by clicking under all settings panels in the Settings menu, and verifying that the Upload Paths and Upload URLs are correct (so that you can upload images, audio and video and other files!).
 
 STEP 7
 
