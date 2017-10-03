@@ -85,9 +85,6 @@
 							return;
 						}
 
-						$manager->clerk->preserve_vars( "db_password, password" );
-						$_POST= $manager->clerk->clean( $_POST );
-
 						# Write config file
 						$error		=	false;
 						$config		= 	fopen( SYSTEM . "assistants/config.inc.php", "w+");
