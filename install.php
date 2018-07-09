@@ -166,7 +166,7 @@
 						$manager->clerk->loadSettings();
 
 						# Setup user
-						$username	=	$_POST['username'];
+						$username	=	mysql_real_escape_string($_POST['username']);
 						$password	=	$_POST['password'];
 						$email		=	$_POST['email'];
 
