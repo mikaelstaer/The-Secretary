@@ -2,8 +2,8 @@
 
 THE SECRETARY
 Simple content management.
-Version 2.3 / February 24 2012
-www.thesecretary.org
+Version 2.5 / December 02 2018
+www.secretarycms.com
 
 ***
 
@@ -15,7 +15,7 @@ APPLICATION REQUIREMENTS
 
 In order to use The Secretary, your host must support the following (if you are unsure, copy this list and send an email to your webhost's support):
 
-- PHP 5.5+
+- PHP 7.0+
 - MySQL 5+
 - Linux/Apache server
 - Allow mod_rewrite for clean URLs (if you wish to use them)
@@ -29,7 +29,7 @@ the following:
 
 ***
 
-UPGRADING INSTRUCTIONS 2.3 - 2.4 : READ CAREFULLY!
+UPGRADING INSTRUCTIONS 2.4 - 2.5 : READ CAREFULLY!
 
 1. Backup "config.inc.php" in the "assistants" folder.
 

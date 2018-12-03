@@ -25,10 +25,13 @@
 	session_start();
 	ob_start();
 
+	$protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+	$BASE_URL = $protocol . $_SERVER['HTTP_HOST'] . str_replace(array(basename(__FILE__), '?' . $_SERVER['QUERY_STRING']), '', $_SERVER['REQUEST_URI']);
+
 	define( 'VERSION', '2.4' );
 	define( 'VERSION_DATE', '2017-02-20' );
 	define( "BASE_PATH", dirname( $_SERVER["SCRIPT_FILENAME"] ) . "/" );
-	define( "BASE_URL", str_replace( basename(__FILE__), "", $_SERVER['SCRIPT_URI'] ) );
+	define( "BASE_URL", $BASE_URL );
 	define( "SYSTEM" , BASE_PATH  . "system/" );
 	define( "SYSTEM_URL", BASE_URL  . "system/" );
 

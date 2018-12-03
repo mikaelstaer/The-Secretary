@@ -1,8 +1,8 @@
 <?php
-	# The Secretary 2.4 Upgrader
+	# The Secretary 2.5 Upgrader
 	if ( isset( $manager ) ):
 
-		$upgradeVersion= "2.4";
+		$upgradeVersion= "2.5";
 		$manager->clerk->updateSetting( "app", array( $upgradeVersion ) );
 
 		unlink( SYSTEM . "plugins/upgrade.plugin.php" );

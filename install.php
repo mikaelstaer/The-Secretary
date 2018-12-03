@@ -7,7 +7,7 @@
 	ob_start();
 
 	define( 'BASE_PATH', dirname( $_SERVER["SCRIPT_FILENAME"] ) . "/" );
-	define( 'BASE_URL', "http://" . $_SERVER['SERVER_NAME'] . dirname( $_SERVER['REQUEST_URI'] ) . "/" );
+	define( 'BASE_URL', "https://" . $_SERVER['SERVER_NAME'] . dirname( $_SERVER['REQUEST_URI'] ) . "/" );
 	define( "SYSTEM" , BASE_PATH  . "system/" );
 	define( "SYSTEM_URL", BASE_URL  . "system/" );
 
@@ -166,11 +166,11 @@
 						$manager->clerk->loadSettings();
 
 						# Setup user
-						$username	=	$_POST['username'];
-						$password	=	$_POST['password'];
-						$email		=	$_POST['email'];
+						$username	=	mysql_real_escape_string($_POST['username']);
+						$password	=	mysql_real_escape_string($_POST['password']);
+						$email		=	mysql_real_escape_string($_POST['email']);
 
-						$siteUrl	=	"http://" . str_replace( "http://", "", $_POST['site_url'] );
+						$siteUrl	=	mysql_real_escape_string($_POST['site_url']);
 						$siteUrl	=	( strrchr( $siteUrl, "/" ) == "/" ) ? substr( $siteUrl, 0, strrchr( $siteUrl, "/" ) - 1 ) : $siteUrl;
 
 						# Create user if it doesn't exist already
@@ -179,14 +179,14 @@
 
 						//fix for security reasons
 						if ( $manager->clerk->query_countRows( "users", "WHERE username= '$username'" ) == 0 ) {
-							password_hash( $password, PASSWORD_DEFAULT );
-							$manager->clerk->query_insert( "users", "username, password, email", "'$username', '$pass', '$email'" );
+							$password = password_hash( $password, PASSWORD_DEFAULT );
+							$manager->clerk->query_insert( "users", "username, password, display_name, email, level_id", "'$username', '$password', '$username', '$email', '1'" );
 						}
 						# Update settings
 						$manager->clerk->updateSettings(
 							array(
-								'app'						=>	array( "2.3", "", "" ),
-								'site'						=>	array( $_POST['site_name'], $siteUrl ),
+								'app'						=>	array( "2.5", "", "" ),
+								'site'						=>	array( mysql_real_escape_string($_POST['site_name']), $siteUrl ),
 								'projects_path'				=>	array( BASE_PATH . 'files/projects/', BASE_URL . 'files/projects/' ),
 								'cache_path'				=>	array( BASE_PATH . "files/cache/", BASE_URL . "files/cache/", 0 ),
 								'mediamanager_path'			=>	array( BASE_PATH . "files/media/", BASE_URL . "files/media/" ),
@@ -207,15 +207,15 @@
 
 						if ( file_exists( BASE_PATH . "site/site.php" ) == false )
 						{
-							$code= '<pre>';
+							// $code= '<pre>';
 							foreach ( $site_file_contents as $line )
 							{
-								$code.= $line . "\n";
+								$code .= $line . "\n";
 							}
+							// $code.= '</pre>';
+							$code = htmlentities($code);
 
-							$code.= '</pre>';
-
-							echo message( "warning", 'The Secretary was <em>almost</em> successfully installed! You need to do one little thing before everything works as it should: create a file called index.php and paste the following into it:<br/>' . $code . '<br /><br />Upload this file to: ' . $siteUrl . '<br /><br />For security reasons, you should delete this file (install.php). After you have done that, you may <a href="login.php">login</a>.' );
+							echo message( "warning", 'The Secretary was <em>almost</em> successfully installed! You need to do one little thing before everything works as it should: create a file called index.php and paste the following into it:<br/><pre>' . $code . '</pre><br />Upload this file to: ' . $siteUrl . '<br /><br />For security reasons, you should delete this file (install.php). After you have done that, you may <a href="login.php">login</a>.' );
 						}
 						else
 						{

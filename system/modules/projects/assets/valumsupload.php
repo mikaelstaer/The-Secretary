@@ -67,6 +67,8 @@
 		{
 			$type= "image";
 			list($width, $height) = getimagesize( $paths['path'] . $slug . "/" . $file );
+			$width = $width ?? 0;
+			$height = $height ?? 0;
 		}
 		elseif ( in_array( $file_ext, $video_types ) )
 		{
@@ -91,7 +93,7 @@
 		$group	=	( $numGroups == 1 ) ? 1 : 0;
 
 		// Add to database
-		$clerk->query_insert( "project_files", "file, thumbnail, width, height, project_id, pos, type, filegroup", "'$file', '$thumbnail_name', '$width', '$height', '$id', '$pos', '$type', '$group'" );
+		$clerk->query_insert( "project_files", "title, caption, file, thumbnail, width, height, project_id, pos, type, filegroup", "'', '', '$file', '$thumbnail_name', '$width', '$height', '$id', '$pos', '$type', '$group'" );
 		$fileId= mysqli_insert_id($clerk->link);
 
 		$thumb_path		=	$paths['path'] . $slug . "/" . $thumbnail_name;
@@ -165,6 +167,7 @@ class qqUploadedFileXhr {
      * Save the file to the specified path
      * @return boolean TRUE on success
      */
+
     function save($path) {
         $input = fopen("php://input", "r");
         $temp = tmpfile();
@@ -189,7 +192,8 @@ class qqUploadedFileXhr {
         if (isset($_SERVER["CONTENT_LENGTH"])){
             return (int)$_SERVER["CONTENT_LENGTH"];
         } else {
-            throw new Exception('Getting content length is not supported.');
+            // throw new Exception('Getting content length is not supported.');
+						return 0;
         }
     }
 }
@@ -250,9 +254,9 @@ class qqFileUploader {
 
         $size = $this->file->getSize();
 
-        if ($size == 0) {
-            return array('error' => 'File is empty');
-        }
+        // if ($size == 0) {
+        //     return array('error' => 'File is empty');
+        // }
 
         if ($size > $this->sizeLimit) {
             return array('error' => 'File is too large');

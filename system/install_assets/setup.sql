@@ -1,9 +1,9 @@
 CREATE TABLE IF NOT EXISTS global_settings (
   id int(10) unsigned NOT NULL auto_increment,
-  name text NOT NULL,
-  data1 longtext NOT NULL,
-  data2 longtext NOT NULL,
-  data3 longtext NOT NULL,
+  name text NULL,
+  data1 longtext NULL,
+  data2 longtext NULL,
+  data3 longtext NULL,
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
@@ -33,15 +33,15 @@ INSERT INTO global_settings (id, name, data1, data2, data3) VALUES
 
 CREATE TABLE IF NOT EXISTS pages (
   id int(11) NOT NULL auto_increment,
-  name text NOT NULL,
-  slug text NOT NULL,
-  url text NOT NULL,
-  text text NOT NULL,
-  content_type tinytext NOT NULL,
-  content_options text NOT NULL,
-  hidden int(11) NOT NULL,
-  parent int(11) NOT NULL,
-  pos int(11) NOT NULL,
+  name text NULL,
+  slug text NULL,
+  url text NULL,
+  text text NULL,
+  content_type tinytext NULL,
+  content_options text NULL,
+  hidden int(11) NULL,
+  parent int(11) NULL,
+  pos int(11) NULL,
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
@@ -53,15 +53,15 @@ INSERT INTO pages (id, name, slug, url, text, content_options, content_type, hid
 
 CREATE TABLE IF NOT EXISTS projects (
   id int(11) NOT NULL auto_increment,
-  title text NOT NULL,
-  slug text NOT NULL,
-  description text NOT NULL,
-  date int(11) NOT NULL,
-  section int(11) NOT NULL,
-  pos int(11) NOT NULL,
-  flow text NOT NULL,
-  thumbnail text NOT NULL,
-  publish int(11) NOT NULL,
+  title text NULL,
+  slug text NULL,
+  description text NULL,
+  date int(11) NULL,
+  section int(11) NULL,
+  pos int(11) NULL,
+  flow text NULL,
+  thumbnail text NULL,
+  publish int(11) NULL,
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
@@ -70,23 +70,23 @@ INSERT INTO projects (id, title, slug, description, date, section, pos, flow, th
 
 CREATE TABLE IF NOT EXISTS projects_to_tags (
   id int(11) NOT NULL auto_increment,
-  tag text NOT NULL,
-  projectid int(11) NOT NULL,
+  tag text NULL,
+  projectid int(11) NULL,
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS project_files (
   id int(11) NOT NULL auto_increment,
-  title text NOT NULL,
-  caption text NOT NULL,
-  file text NOT NULL,
-  thumbnail text NOT NULL,
-  width int(11) NOT NULL,
-  height int(11) NOT NULL,
-  project_id int(11) NOT NULL,
-  pos int(11) NOT NULL,
-  type text NOT NULL,
-  filegroup int(11) NOT NULL,
+  title text NULL,
+  caption text NULL,
+  file text NULL,
+  thumbnail text NULL,
+  width int(11) NULL,
+  height int(11) NULL,
+  project_id int(11) NULL,
+  pos int(11) NULL,
+  type text NULL,
+  filegroup int(11) NULL,
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
@@ -100,9 +100,9 @@ INSERT INTO project_files (id, title, caption, file, thumbnail, width, height, p
 
 CREATE TABLE IF NOT EXISTS project_sections (
   id int(11) NOT NULL auto_increment,
-  name text NOT NULL,
-  slug text NOT NULL,
-  pos int(11) NOT NULL,
+  name text NULL,
+  slug text NULL,
+  pos int(11) NULL,
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
@@ -111,22 +111,22 @@ INSERT INTO project_sections (id, name, slug, pos) VALUES
 
 CREATE TABLE IF NOT EXISTS users (
   id int(10) unsigned NOT NULL auto_increment,
-  username text NOT NULL,
-  password text NOT NULL,
-  display_name text NOT NULL,
-  email text NOT NULL,
-  level_id int(11) NOT NULL,
+  username text NULL,
+  password text NULL,
+  display_name text NULL,
+  email text NULL,
+  level_id int(11) NULL,
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS secretary_blog (
   id int(10) unsigned NOT NULL auto_increment,
-  slug text NOT NULL,
-  date int(11) NOT NULL,
-  title text NOT NULL,
-  post longtext NOT NULL,
-  image text NOT NULL,
-  status int(10) NOT NULL,
+  slug text NULL,
+  date int(11) NULL,
+  title text NULL,
+  post longtext NULL,
+  image text NULL,
+  status int(10) NULL,
   PRIMARY KEY  (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 ;
 

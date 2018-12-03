@@ -114,7 +114,7 @@
 		$patterns= call_anchor("mmPatterns", $patterns);
 
 		$text['modified']= preg_replace_callback($patterns, "mmTextTransform", $text['modified']);
-
+		
 		return $text;
 	}
 

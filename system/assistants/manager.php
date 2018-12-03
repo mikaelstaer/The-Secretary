@@ -135,6 +135,7 @@
 			{
 				if ( is_callable( $data[0] ) )
 				{
+					if (is_array($data[1]) == false) $data[1] = array();
 					$data[1][]= $val;
 				 	$val= call_user_func_array( $data[0], $data[1] );
 				}
