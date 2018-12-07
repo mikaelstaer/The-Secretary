@@ -14,7 +14,7 @@
 	# Simple content management.
 
 	# @author     Mikael Staer <info@thesecretary.org>
-	# @version    2.4 2012-02-20
+	# @version    2.5 2018-12-02
 	# @license    http://www.gnu.org/licenses/gpl-3.0.txt	GPL
 
 	header( 'Content-type: text/html; charset=utf-8' );
@@ -28,8 +28,8 @@
 	$protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 	$BASE_URL = $protocol . $_SERVER['HTTP_HOST'] . str_replace(array(basename(__FILE__), '?' . $_SERVER['QUERY_STRING']), '', $_SERVER['REQUEST_URI']);
 
-	define( 'VERSION', '2.4' );
-	define( 'VERSION_DATE', '2017-02-20' );
+	define( 'VERSION', '2.5' );
+	define( 'VERSION_DATE', '2018-12-02' );
 	define( "BASE_PATH", dirname( $_SERVER["SCRIPT_FILENAME"] ) . "/" );
 	define( "BASE_URL", $BASE_URL );
 	define( "SYSTEM" , BASE_PATH  . "system/" );
