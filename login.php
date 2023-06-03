@@ -100,7 +100,7 @@
 					<div id="title" class="center">
 						<h1><?php echo $manager->clerk->getSetting( 'site', 1 ); ?> / The Secretary / <span class="active">Login</span></h1>
 						<div id="appTitle">
-							<a href="http://www.secretarycms.com">The Secretary</a>
+							<a href="https://www.secretarycms.com">The Secretary</a>
 						</div>
 					</div>
 				</div>

@@ -1,8 +1,8 @@
 <?php
-$settings['DB_SERVER']= "";
-$settings['DB_NAME']= "";
-$settings['DB_USERNAME']= "";
-$settings['DB_PASSWORD']= "";
+$settings['DB_SERVER']= "localhost";
+$settings['DB_NAME']= "secretary";
+$settings['DB_USERNAME']= "root";
+$settings['DB_PASSWORD']= "root";
 
 
 $settings['COOKIE_TIME']= "604800";

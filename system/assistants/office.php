@@ -16,7 +16,7 @@
 		public function init()
 		{
 			global $manager;
-
+			
 			$namespace= ( empty( $_GET['cubicle'] ) ) ? "home" : $_GET['cubicle'];
 			$namespace_array= explode( "-", $namespace );
 
@@ -142,7 +142,8 @@
 
 			$breadCrumb= "";
 			$count= 0;
-
+			$chain = "";
+			
 			foreach ( $request as $part )
 			{
 				$chain.= ( $count == 0 ) ? $part : "-" . $part;
@@ -236,8 +237,9 @@
 			{
 				$requestString= ( empty( $parent ) ) ? $m['sys_name'] : $parent . "-" . $m['sys_name'];
 
-				if ( ( $m['off'] == 0 || $m['default'] == 1 ) && $m['hidden'] == 0 )
+				if ( (($m['off'] == 0 || $m['off'] == NULL) || ($m['default'] == 1 )) && ($m['hidden'] == 0 || $m['hidden'] == NULL))
 				{
+					
 					if ($start)
 					{
 						$aClass		=	"top";
@@ -252,7 +254,7 @@
 						}
 
 					}
-					elseif ( !$start && count( $m['children'] ) > 0 )
+					elseif ( !$start && (isset($m['children']) && count( $m['children'] ) > 0) )
 					{
 						$url	=	( empty( $m['url'] ) ) ? "#" : $m['url'];
 					}

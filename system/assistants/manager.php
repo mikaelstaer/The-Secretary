@@ -13,7 +13,7 @@
 	}
 
 	$helpers= array(
-					'js'	=>	array()
+		'js'	=>	array()
 	);
 
 	$totalModules= 0;
@@ -32,7 +32,7 @@
 			$this->office	= 	new Office();
 		}
 
-		public function message( $type= 0, $mysql_error= false, $text, $return= false )
+		public function message( $type= 0, $mysql_error= false, $text= "", $return= false )
 		{
 			$type= ( $type == 1 ) ? "success" : "error";
 
@@ -129,7 +129,7 @@
 	{
 		global $anchors;
 
-		if ( count( $anchors[$name] > 0 ) && is_array( $anchors[$name] ) )
+		if (isset($anchors[$name]) && count($anchors[$name]) > 0 && is_array($anchors[$name]))
 		{
 			foreach ( $anchors[$name] as $name => $data )
 			{
@@ -199,7 +199,7 @@
 	{
 		global $anchors;
 
-		return count( $anchors[$anchor] );
+		return (isset($anchors[$anchor])) ? count($anchors[$anchor]) : null;
 	}
 
 	function loadModules()
@@ -245,11 +245,11 @@
 
 		if ( $level == $maxLevel ) return;
 
-		$base= ( AJAX ) ? SYSTEM : BASE_PATH;
-
+		$base= ( defined("AJAX") ) ? str_replace("system/", "", SYSTEM) : BASE_PATH;
+		
         if ( $root )
         {
-			$dir= $base . 'plugins/';
+			$dir= $base . 'system/plugins/';
             $tree= array();
             $base_dir_length= strlen( $dir ) + 1;
         }
@@ -331,7 +331,7 @@
 	function return_bytes( $val )
 	{
 	    $val= trim( $val );
-	   	$last= strtolower( $val{ strlen( $val )-1 } );
+	   	$last= strtolower( $val[ strlen( $val )-1 ] );
 
 	    switch($last)
 		{

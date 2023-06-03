@@ -1,13 +1,24 @@
 <?php
 	header('Content-type: text/html; charset=utf-8');
 
-	if ( !isset($_GET['debug']) )
+	if ( isset($_GET['debug']) )
+		error_reporting(E_ALL);
+	else
 		error_reporting(0);
-
-	ob_start();
+	
+		ob_start();
 
 	define( 'BASE_PATH', dirname( $_SERVER["SCRIPT_FILENAME"] ) . "/" );
-	define( 'BASE_URL', "https://" . $_SERVER['SERVER_NAME'] . dirname( $_SERVER['REQUEST_URI'] ) . "/" );
+
+	if ( (! empty($_SERVER['REQUEST_SCHEME']) && $_SERVER['REQUEST_SCHEME'] == 'https') || (! empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (! empty($_SERVER['SERVER_PORT']) && $_SERVER['SERVER_PORT'] == '443') ) {
+    	$server_request_scheme = 'https://';
+	} else {
+		$server_request_scheme = 'http://';
+	}
+	
+	define( 'BASE_URL', $server_request_scheme . $_SERVER['SERVER_NAME'] . dirname( $_SERVER['REQUEST_URI'] ) . "/" );
+	// for localhost, use this
+	//define( 'BASE_URL', $server_request_scheme . $_SERVER['HTTP_HOST'] . dirname( $_SERVER['REQUEST_URI'] ) . "/" );
 	define( "SYSTEM" , BASE_PATH  . "system/" );
 	define( "SYSTEM_URL", BASE_URL  . "system/" );
 
@@ -20,6 +31,7 @@
 	require_once BASE_PATH . "system/assistants/manager.php";
 
 	$manager= new Manager();
+	$manager->office->init();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -42,7 +54,7 @@
 					<div id="title" class="center">
 						<h1>The Secretary / Install</h1>
 						<div id="appTitle">
-							<a href="http://www.secretarycms.com">The Secretary</a>
+							<a href="https://www.secretarycms.com">The Secretary</a>
 						</div>
 					</div>
 				</div>
@@ -55,12 +67,12 @@
 						exit;
 					}
 
-					if ( phpversion() < 5 )
+					if ( phpversion() < 8 )
 					{
-						echo $manager->message( 0, false, "Oh brutal! The Secretary requires PHP 5 or greater! You are running version ".phpversion()."." );
+						echo $manager->message( 0, false, "Oh brutal! The Secretary requires PHP 8 or greater! You are running version ".phpversion()."." );
 						exit;
 					}
-
+					
 					$manager->form= new Receptionist( "input", "post", $manager->office->URIquery(), "submit", "multipart/form-data", "process" );
 					$manager->form->save_state();
 				?>
@@ -70,7 +82,7 @@
 					function process()
 					{
 						global $manager;
-
+						
 						# Connect
 						$db= array(
 								'DB_SERVER'		=>	$_POST['db_server'],
@@ -78,16 +90,16 @@
 								'DB_USERNAME'	=>	$_POST['db_username'],
 								'DB_PASSWORD'	=>	$_POST['db_password']
 						);
-
+						
 						if ( !$manager->clerk->dbConnect( $db ) )
 						{
 							echo $manager->message( 0, false, "Uh-oh! A test connection to your database could not be made. Double check your info." );
 							return;
 						}
-
+						
 						# Write config file
 						$error		=	false;
-						$config		= 	fopen( SYSTEM . "assistants/config.inc.php", "w+");
+						$config		= 	fopen( SYSTEM . "assistants/config.inc.php", "w+");						
 						$write		= 	array(
 											'<?php',
 											'$settings[\'DB_SERVER\']= "' . $_POST['db_server'] . '";',
@@ -110,7 +122,7 @@
 						}
 
 						fclose( $config );
-
+						
 						# Write site file
 						$error				=	false;
 						$site_file			= 	fopen( BASE_PATH . "site/site.php", "w+" );
@@ -166,11 +178,11 @@
 						$manager->clerk->loadSettings();
 
 						# Setup user
-						$username	=	mysql_real_escape_string($_POST['username']);
-						$password	=	mysql_real_escape_string($_POST['password']);
-						$email		=	mysql_real_escape_string($_POST['email']);
+						$username	=	mysqli_real_escape_string($manager->clerk->link, $_POST['username']);
+						$password	=	mysqli_real_escape_string($manager->clerk->link, $_POST['password']);
+						$email		=	mysqli_real_escape_string($manager->clerk->link, $_POST['email']);
 
-						$siteUrl	=	mysql_real_escape_string($_POST['site_url']);
+						$siteUrl	=	mysqli_real_escape_string($manager->clerk->link, $_POST['site_url']);
 						$siteUrl	=	( strrchr( $siteUrl, "/" ) == "/" ) ? substr( $siteUrl, 0, strrchr( $siteUrl, "/" ) - 1 ) : $siteUrl;
 
 						# Create user if it doesn't exist already
@@ -185,8 +197,8 @@
 						# Update settings
 						$manager->clerk->updateSettings(
 							array(
-								'app'						=>	array( "2.5", "", "" ),
-								'site'						=>	array( mysql_real_escape_string($_POST['site_name']), $siteUrl ),
+								'app'						=>	array( "2.6", "", "" ),
+								'site'						=>	array( mysqli_real_escape_string($manager->clerk->link, $_POST['site_name']), $siteUrl ),
 								'projects_path'				=>	array( BASE_PATH . 'files/projects/', BASE_URL . 'files/projects/' ),
 								'cache_path'				=>	array( BASE_PATH . "files/cache/", BASE_URL . "files/cache/", 0 ),
 								'mediamanager_path'			=>	array( BASE_PATH . "files/media/", BASE_URL . "files/media/" ),
@@ -200,10 +212,9 @@
 						# Send password confirmation email
 						$subject = 'The Secretary Username & Password';
 						$message = 'Hello! You have just installed The Secretary. So you don\'t forget, your username is "' . $username . '" and your password is "' . $_POST['password'] . '".';
-						$headers = 'From: secretarybot' . "\r\n" .
-						    'Reply-To: code@nivr.net' . "\r\n" .
+						$mail_headers = 'From: secretarybot' . "\r\n" . 'Reply-To: code@nivr.net' . "\r\n" .
 
-						mail( $email, $subject, $message, $headers );
+						mail( $email, $subject, $message );
 
 						if ( file_exists( BASE_PATH . "site/site.php" ) == false )
 						{
@@ -225,13 +236,13 @@
 					}
 
 					$manager->form->message(
-						'<br /><br />Before you begin installing The Secretary, double-check that your host meets the <a href="http://www.secretarycms.com/guide/setup/application-requirements" class="external">requirements</a>. You must also have the connection information to your MySQL database (contact your webhost for this information if you do not have it). You will need the following information:
+						'<br /><br />Before you begin installing The Secretary, double-check that your host meets the <a href="http://secretary.tenderapp.com/kb/faq/what-do-i-need-to-run-secretary" class="external">requirements</a>. You must also have the connection information to your MySQL database (contact your webhost for this information if you do not have it). You will need the following information:
 						<br /><br />
 						- database host<br />
 						- database name<br />
 						- database username<br />
 						- database password<br /><br />
-						Make sure that you have changed the permissions (chmoded) on your Secretary folder and its contents (<em>' . str_replace( '/', '', dirname( $_SERVER['REQUEST_URI'] ) ) . '</em>) to 755. See the <a href="http://www.secretarycms.com/guide/setup/installation-instructions" class="external">installation instructions</a> for more details.
+						Make sure that you have changed the permissions (chmoded) on your Secretary folder and its contents (<em>' . str_replace( '/', '', dirname( $_SERVER['REQUEST_URI'] ) ) . '</em>) to 755. See the <a href="http://secretary.tenderapp.com/kb/general-documentation/how-to-install-secretary" class="external">installation instructions</a> for more details.
 						'
 					);
 

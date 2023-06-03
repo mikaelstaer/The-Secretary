@@ -998,6 +998,11 @@ qq.extend(qq.UploadHandlerForm.prototype, {
         var form = this._createForm(iframe, params);
         form.appendChild(input);
 
+        var x = document.body.createElement("input");
+        x.setAttribute("type", "hidden");
+        x.setAttribute("value", "hiddenval");
+        form.appendChild(x);
+
         var self = this;
         this._attachLoadEvent(iframe, function(){                        
             self._options.onComplete(id, fileName, self._getIframeContentJSON(iframe));
@@ -1084,9 +1089,9 @@ qq.extend(qq.UploadHandlerForm.prototype, {
         // form.setAttribute('enctype', 'multipart/form-data');
         // Because in this case file won't be attached to request
         var form = qq.toElement('<form method="post" enctype="multipart/form-data"></form>');
-
+        
         var queryString = qq.obj2url(params, this._options.action);
-
+        
         form.setAttribute('action', queryString);
         form.setAttribute('target', iframe.name);
         form.style.display = 'none';

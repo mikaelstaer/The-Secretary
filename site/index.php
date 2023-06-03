@@ -4,7 +4,7 @@
 	if ( !isset($_GET['debug']) )
 		error_reporting(0);
 
-	if ( !defined("HQ") || !defined("HQ") )
+	if ( !defined("HQ") || !defined("HQ_URL") )
 	{
 		echo "No sneaky!";
 		exit;
@@ -115,7 +115,7 @@
 	}
 
 	if ( empty( $layout ) || $layout == "pages" ) $layout= "default";
-
+	
 	$index_page= pageInfo( $clerk->getSetting( "index_page", 1 ) );
 	$index_page= $index_page['slug'];
 
@@ -156,6 +156,6 @@
 	}
 
 	call_anchor( "site_begin" );
-
+	
 	require_once "themes/" . THEME . "/" . LAYOUT;
 ?>

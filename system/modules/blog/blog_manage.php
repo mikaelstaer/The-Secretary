@@ -8,7 +8,7 @@
 	define_anchor( "modifyPostThumb" );
 	define_anchor( "modifyPostThumbAfterSave" );
 	define_anchor( "blogOverviewToolbar" );
-
+	
 	// Define hooks
 	if ( $_GET['mode']== "edit" )
 	{
@@ -30,7 +30,7 @@
 		hook( "big_message", "postDelete" );
 	}
 
-	if ( $_GET['action'] == "deleteImage" && !empty( $_GET['id'] ) )
+	if ( $_GET['action'] == "yo" && !empty( $_GET['id'] ) )
 	{
 		hook( "big_message", "postDelete", array( true ) );
 	}
@@ -60,7 +60,7 @@
 
 		if ( $manager->clerk->query_numRows( $get ) == 0 )
 		{
-			echo 'You have no blog posts! Click the <strong>New Post</strong> button above to get started.';
+			echo '<br/>You have no blog posts! Click the <strong>New Post</strong> button above to get started.';
 			return;
 		}
 
@@ -293,7 +293,7 @@
 	function editBlogForm( $blogFileTypes )
 	{
 		global $manager;
-
+		
 		// Define required variables
 		$id= $_GET['id'];
 		$post= $manager->clerk->query_fetchArray( $manager->clerk->query_select( "secretary_blog", "", "WHERE id= '$id' LIMIT 1" ) );
@@ -385,7 +385,7 @@
 		//
 
 		$manager->form->add_fieldset( "Post Image", "postImage" );
-		$manager->form->add_input( "file", "image", "Select an image to attach to this post (" . implode( $blogFileTypes, ", " ) . " / <strong>Max " . str_replace( "M", "mb", ini_get( "upload_max_filesize" ) ) . "</strong>)" );
+		$manager->form->add_input( "file", "image", "Select an image to attach to this post (" . implode(", ", $blogFileTypes) . " / <strong>Max " . str_replace( "M", "mb", ini_get( "upload_max_filesize" ) ) . "</strong>)" );
 
 		if ( empty( $post['image'] ) == false )
 		{

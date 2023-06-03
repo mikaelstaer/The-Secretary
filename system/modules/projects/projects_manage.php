@@ -60,8 +60,8 @@
 		
 		echo '
 		<input type="hidden" name="asstPath" id="asstPath" value="' . $manager->clerk->config('ASSISTANTS_PATH') . '" />
-		<input type="hidden" name="uploadPath" id="uploadPath" value="' . $paths['data1'] . '" />
-		<input type="hidden" name="uploadUrl" id="uploadUrl" value="' . $paths['data2'] . '" />
+		<input type="hidden" name="uploadPath" id="uploadPath" value="' . $paths['path'] . '" />
+		<input type="hidden" name="uploadUrl" id="uploadUrl" value="' . $paths['url'] . '" />
 		';
 	}
 	
@@ -150,7 +150,7 @@ HTML;
 		while ( $section= $manager->clerk->query_fetchArray( $getSections ) )
 		{	
 			$tabs.= '
-					<li id="section_' . $section['id'] . '" class="section">
+					<li id="section_'. $section['id'] .'" class="section">
 						<a class="name" href="#section-' . $section['id'] . '">' . $section['name'] . '</a>
 					</li>
 			';
@@ -208,8 +208,8 @@ HTML;
 
 		echo <<<HTML
 				</ul>
-			</div>
 			{$tabContent}
+			</div>
 		</div>
 HTML;
 	}
@@ -240,10 +240,13 @@ HTML;
 	{
 		global $manager;
 		
-		echo $manager->load_jshelper( "fileuploader" );
+		// echo $manager->load_jshelper( "fileuploader" );
 		echo $manager->load_jshelper( 'jquery.form' );
 		echo $manager->load_jshelper( 'quicktags' );
 		echo $manager->load_jshelper( 'jquery.typewatch' );
+		echo $manager->load_jshelper( "jquery.ui.widget" );
+		echo $manager->load_jshelper( "jquery.iframe-transport" );
+		echo $manager->load_jshelper( "jquery.fileupload" );
 	}
 	
 	function projectDelete()
@@ -290,7 +293,7 @@ HTML;
 		$now		= 	getdate();
 		$date		= 	mktime( $now["hours"], $now["minutes"], $now["seconds"], $_POST["date_month"], $_POST["date_day"], $_POST["date_year"] );
 		$tags		=	$_POST['tags'];
-		$publish	=	$_POST['publish'];
+		$publish	=	(int) $_POST['publish'];
 		
 		$paths= $manager->getSetting( "projects_path" );
 		$paths= array(
@@ -524,10 +527,10 @@ HTML;
 		$manager->form->add_input( "hidden", "action", "", "upload" );
 		$manager->form->add_input( "hidden", "id", "", $id );
 		
-		// Valums File Uploader
-		$manager->form->add_to_form( '<div id="file-uploader">upload files <span class="explanation">(<strong>Max ' . str_replace( "M", "mb", ini_get( "upload_max_filesize" ) ) . '</strong> per file)</span></div>' );
-		
-		$manager->form->add_to_form( '</div>' );
+		// Blueimp File Uploader
+		$manager->form->add_to_form( '<div class="qq-uploader"><div class="qq-upload-drop-area" style="display:none;"><span>Drop files here to upload</span></div><div class="qq-upload-button"><div id="file-uploader">upload files <span class="explanation">(<strong>Max ' . str_replace( "M", "mb", ini_get( "upload_max_filesize" ) ) . '</strong> per file)</span> <input id="fileupload" type="file" name="files[]" data-url="system/modules/projects/assets/index.php" multiple></div></div><ul class="qq-upload-list"></ul></div> ' );
+		// $manager->form->add_to_form('<input id="fileupload" type="file" name="files[]" data-url="system/modules/projects/assets/index.php" multiple>');
+		$manager->form->add_to_form( '</div><div class="spinner"><img src="system/gui/starling/img/loading-small.gif"></div>' );
 		
 		$manager->form->add_to_form( $toolbar->html );
 		
@@ -573,6 +576,7 @@ HTML;
 			}
 			elseif ( strstr( $part, "group" ) )
 			{
+				
 				$groupNum	=	preg_replace( '/(group)([0-9]+)(:)*([a-zA-Z0-9-]+)?/', '$2', $part );
 				$groupType	=	preg_replace( '/(group)([0-9]+)(:)*([a-zA-Z0-9-]+)?/', '$4', $part );
 				

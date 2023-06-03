@@ -18,7 +18,7 @@
 		if ( (bool) $_GET['emptycache'] == false )
 			return;
 		
-		emptyDir( $manager->clerk->getSetting( "cache_path", 1 ) );
+		emptyDir( $manager->clerk->getSetting( "cache_path", 1 ), false );
 		
 		$manager->message( 1, false, "Cache folder emptied!" );
 	}

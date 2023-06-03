@@ -9,7 +9,7 @@ www.secretarycms.com
 
 ***
 
-If you encounter any problems, are confused or have questions, visit www.thesecretary.org and make a post in the forums.
+If you encounter any problems, are confused or have questions, visit www.secretarycms.com and make a post in the forums.
 
 ***
 

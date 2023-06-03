@@ -1,5 +1,5 @@
 <?php
-	error_reporting( 0 );
+	error_reporting(0);
 	$_POST= $_GET;
 
 	define( "AJAX", true );
@@ -35,7 +35,7 @@
 		// File details
 		$file			=	$_GET['qqfile'];
 		$file_details	=	pathinfo( $file );
-		$file_ext		= $file_details['extension'];
+		$file_ext		= 	$file_details['extension'];
 		$thumbnail_name	=	str_replace( $file_ext, "thumb." . $file_ext, $file );
 
 		// Project details

@@ -1,11 +1,11 @@
 <?php
-	error_reporting( 0 );
+	error_reporting(0);
 
 	define( "AJAX", true );
 	require_once $_POST['system']['path'] . "assistants/launch.php";
-
+	
 	define_anchor( "displayersList" );
-
+	
 	$paths= $clerk->getSetting( "projects_path" );
 	$paths= array( 	'path' 	=>	$paths['data1'],
 					'url'	=>	$paths['data2']
@@ -13,11 +13,13 @@
 
 	function update()
 	{
-		global $clerk;
-
+		global $clerk, $POST_UNCLEAN;
+		
 		$file_id	=	$_POST['file_id'];
-		$title 		= $_POST['title'];
-		$caption	=	$_POST['caption'];
+		$title 		=   (empty($_POST['title']) ? "" : $_POST['title']);
+		$caption	=	(empty($POST_UNCLEAN['caption']) ? "" : $POST_UNCLEAN['caption']);
+
+		// $caption	=	(empty($_POST['caption']) ? "" : htmlspecialchars( $_POST['caption'], ENT_COMPAT, 'UTF-8'));
 
 		echo $clerk->query_edit( "project_files", "title= '$title', caption= '$caption'", "WHERE id= '$file_id'" );
 	}
@@ -71,9 +73,11 @@
 			$group		=	$_POST['group'];
 			$count		=	1;
 
-			parse_str( str_replace("&amp;", "&", $_POST['file_order']) );
+			// parse_str( str_replace("&amp;", "&", $_POST['file_order']), $output );
+			$file_order = str_replace("amp;", "", $_POST['file_order']);
+			parse_str($file_order, $output);
 
-			foreach( $file as $f )
+			foreach( $output['file'] as $f )
 			{
 				$ok= $clerk->query_edit( "project_files", "filegroup= '$group', project_id= '$project_id', pos= '$count'", "WHERE id= '$f'" );
 				$count++;
@@ -122,10 +126,10 @@
 		$nextFileID	= 	$clerk->nextID("project_files");
 		$pos		=	$clerk->query_countRows( "projects", "WHERE section= '$section'" ) + 1;
 
-		$project= $clerk->query_insert( "projects", "title, slug, date, section, flow, publish, pos", "'$title', '$slug', '$date', '$section', 'group1:one-by-one,textblock$nextFileID', '1', '$pos'" );
+		$project= $clerk->query_insert( "projects", "title, description, thumbnail, slug, date, section, flow, publish, pos", "'$title', '', '', '$slug', '$date', '$section', 'group1:one-by-one,textblock$nextFileID', '1', '$pos'" );
 		$projectID= $clerk->lastID();
 
-		$firstTextBlock= $clerk->query_insert( "project_files", "caption, project_id, type, filegroup", "'Some text about this project...','$projectID','text','0'" );
+		$firstTextBlock= $clerk->query_insert( "project_files", "title, caption, project_id, type, filegroup, pos, file, thumbnail, width, height", "'','Some text about this project...','$projectID','text','0', 0, '', '', 0, 0" );
 
 		$makeDir= mkdir( $paths['path'] . $slug );
 
@@ -143,8 +147,8 @@
 	{
 		global $clerk;
 
-		$title 				= 	$_POST['title'];
-		$data				= 	$_POST['caption'];
+		$title 				= 	"";
+		$data				= 	"";
 		$project_id			= 	$_POST['project_id'];
 		$type				= 	"text";
 		$pos				=	$clerk->query_countRows( "project_files", "WHERE project_id= '$project_id'" ) + 1;
@@ -167,7 +171,7 @@
 							</li>
 						</ul>
 					</div>
-					<textarea id="textBlock_{$id}" class="textblock" rows="7" cols="50">Some text...</textarea>
+					<textarea id="textBlock_{$id}" class="textblock" rows="7" cols="50"></textarea>
 				</div>
 HTML;
 
@@ -190,8 +194,9 @@ HTML;
 
 		$groupNum= $_POST['groupNum'];
 		$displayers= call_anchor( "displayersList", array() );
+		$displayersList = "";
 		$count= 0;
-
+		
 		foreach ( $displayers as $d )
 		{
 			$count++;
@@ -299,6 +304,7 @@ HTML;
 		$name	=	$_POST['name'];
 		$slug	=	$clerk->simple_name( $name );
 		$pos	=	$clerk->query_countRows( "project_sections" ) + 1;
+		$html	=	"";
 
 		if ( $clerk->query_insert( "project_sections", "name, slug, pos", "'$name', '$slug', '$pos'" ) )
 		{
@@ -348,11 +354,11 @@ HTML;
 		global $clerk;
 
 		$section	= 	$_POST['section'];
-		parse_str( str_replace( "&amp;", "&", $_POST['fileOrder'] ) );
+		parse_str( str_replace( "&amp;", "&", $_POST['fileOrder'] ), $project );
 
 		$count= 0;
 		$total= count( $project );
-		foreach ( $project as $p )
+		foreach ( $project['project'] as $p )
 		{
 			$count++;
 			$ok= $clerk->query_edit( "projects", "section= '$section', pos= '$count'", "WHERE id= '$p'" );
@@ -365,11 +371,11 @@ HTML;
 	{
 		global $clerk;
 
-		parse_str( str_replace( "&amp;", "&", $_POST['fileOrder'] ) );
+		parse_str( str_replace( "&amp;", "&", $_POST['fileOrder'] ), $section );
 
 		$count= 0;
 		$total= count( $section );
-		foreach ( $section as $s )
+		foreach ( $section['section'] as $s )
 		{
 			$count++;
 			$ok= $clerk->query_edit( "project_sections", "pos= '$count'", "WHERE id= '$s'" );
@@ -387,7 +393,7 @@ HTML;
 						'url'	=>	$paths['data2']
 		);
 
-		$section=	$_POST['section'];
+		$section= $_POST['section'];
 
 		$projects= array();
 		$filesToDelete= array();

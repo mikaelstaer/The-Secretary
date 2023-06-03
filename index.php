@@ -13,12 +13,12 @@
 
 	# Simple content management.
 
-	# @author     Mikael Staer <info@thesecretary.org>
-	# @version    2.5 2018-12-02
+	# @author     Mikael Staer <mikael@secretarycms.com>
+	# @version    2.6 2022-02-06
 	# @license    http://www.gnu.org/licenses/gpl-3.0.txt	GPL
 
 	header( 'Content-type: text/html; charset=utf-8' );
-
+	
 	if ( !isset($_GET['debug']) )
 		error_reporting(0);
 	//securely start session
@@ -28,16 +28,16 @@
 	$protocol = ((!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 	$BASE_URL = $protocol . $_SERVER['HTTP_HOST'] . str_replace(array(basename(__FILE__), '?' . $_SERVER['QUERY_STRING']), '', $_SERVER['REQUEST_URI']);
 
-	define( 'VERSION', '2.5' );
-	define( 'VERSION_DATE', '2018-12-02' );
+	define( 'VERSION', '2.6' );
+	define( 'VERSION_DATE', '2022-02-06' );
 	define( "BASE_PATH", dirname( $_SERVER["SCRIPT_FILENAME"] ) . "/" );
 	define( "BASE_URL", $BASE_URL );
 	define( "SYSTEM" , BASE_PATH  . "system/" );
 	define( "SYSTEM_URL", BASE_URL  . "system/" );
-
-	$mini= ( $_GET['mini'] == true ) ? true : false;
+	
+	$mini= (isset($_GET['mini']) &&  $_GET['mini'] == true ) ? true : false;
 	define( "MINI", $mini );
-
+	
 	require_once SYSTEM . "assistants/launch.php";
 
 	loadModules();
@@ -92,7 +92,7 @@
 						?>
 						<h1><?php echo $manager->office->make_breadcrumb(); ?> <span class="active"><?php call_anchor( "breadcrumbActive" ); ?></span></h1>
 						<div id="appTitle">
-							<a href="http://www.thesecretary.org">The Secretary</a>
+							<a href="https://www.secretarycms.com">The Secretary</a>
 						</div>
 						<?php
 							/*else:

@@ -21,10 +21,37 @@ jQuery( function($)
 		fileSortable();
 		fileGroupSortable();
 		textBlockUpdate();
-		scrollWaitingRoom();
 		
+		$('#fileupload').fileupload({
+			dataType: 'json',
+			acceptFileTypes: '/(\.|\/)(gif|jpe?g|png|webp)$/i',
+			submit: function (e, data) {
+				$(".spinner").show();
+			},
+			formData: {
+				action: "upload",
+				syspath: SYSTEM.path,
+				sysurl: SYSTEM.url,
+				id: $("#id").val()
+			},
+			done: function (e, data) {
+				html= data.result.html;
+				var totalGroups= $('.fileGroup:not(#waitingRoom,.textBlock)').size();
+				
+				if ( totalGroups == 1 ) {
+					$(html).appendTo('.fileGroup:not(#waitingRoom,.textBlock):first');
+				}else {
+					$("#waitingRoom").show();
+					$(html).appendTo("#waitingRoom");
+				}
+
+				fileSortable();
+				$(".spinner").hide();
+			}
+		});
+
 		// Valums File Uploader
-		var uploader = new qq.FileUploader({
+		/*var uploader = new qq.FileUploader({
 		    element: document.getElementById('file-uploader'),
 		    action: "system/modules/projects/assets/valumsupload.php",
 			allowedExtensions: ['jpg', 'jpeg', 'gif', 'png', 'mov', 'mpg', 'mpeg', 'wmv', 'avi', 'm4v', 'mp4', 'flv', 'swf', 'mp3', 'm4a', 'wav'],
@@ -54,7 +81,7 @@ jQuery( function($)
 				
 				fileSortable();
 			}
-		});
+		});*/
 	}
 	else
 	{
@@ -88,15 +115,14 @@ jQuery( function($)
 					Cancel	: false,
 					OK		: true
 				},
-				callback: function(value, msg, form)
-						  {
-						  		if ( value == true )
-								{
-									window.location = "?cubicle=projects-manage&mode=delete&id=" + document.getElementById("id").value;
-								}
-								
-								return value;
-						  }
+				submit: function(event, value, msg, form) {
+					if ( value == true )
+					{
+						window.location = "?cubicle=projects-manage&mode=delete&id=" + document.getElementById("id").value;
+					}
+					
+					return value;
+				}
 			});
 		}
 		else
@@ -119,6 +145,7 @@ jQuery( function($)
 		},
 		success: function(data, status)
 		{	
+			console.log("hi");
 			$("#thumbnailForm #theThumb img").remove();
 			$("#thumbnailForm #theThumb").prepend(data);
 			$("#thumbnailForm .delete").show();
@@ -129,11 +156,6 @@ jQuery( function($)
 	
 	$("#thumbnailUpload").ajaxForm(thumbnailOptions);
 });
-
-var scrollWaitingRoom= function()
-{
-	jQuery("#waitingRoom").width(jQuery("#waitingRoom").outerWidth()).scrollFixed({container: '#groupedFiles', appearAfterDiv: '#uploadForm', spacer: true});
-}
 
 var newProject= function()
 {
@@ -148,61 +170,59 @@ var newProject= function()
 	var selected;
 	jQuery(".section").each(function(i)
 	{
-		sectionId= jQuery(this).attr("id");
-		sectionId= Number( sectionId.substring( sectionId.search('_') + 1 ) );
-		name= jQuery("#section_" + sectionId + " a.name").text();
-		if ( jQuery(this).hasClass("ui-tabs-selected") )
+		var sectionId= jQuery(this).attr("id");
+		var sectionId= Number( sectionId.substring( sectionId.search('_') + 1 ) );
+		var name= jQuery("#section_" + sectionId + " a.name").text();
+		if ( jQuery(this).hasClass("ui-tabs-active") )
 			selected= 'selected= "selected"';
 		else
 			selected= "";
 		sections+= '<option value="' + sectionId + '"' + selected + '>' + name + '</option>';
 	});
 	
-	var form= '<label for="title">Title</label><input type="text" name="title" id="title" /><label for="section">Section</label><select name="section">' + sections + '</select>';
-	jQuery.prompt( '<h1>New Project</h1>' + form,
+	var formhtml= '<label for="title">Title</label><input type="text" name="title" id="title" /><label for="section">Section</label><select name="section">' + sections + '</select>';
+	jQuery.prompt( '<h1>New Project</h1>' + formhtml,
 	{
 		buttons: {
 			Save	: true,
 			Cancel	: false
 		},
-		submit: function(value, msg, form)
+		submit: function(event, value, msg, form)
 		{
-			if ( form.title.length < 1 && value == true )
+			if ( form.title.length < 1 && value == true ) {
 				return false;
+			}
 			
-			return true;
-		},
-		callback: function(value, msg, form)
-		{
-			if ( value == true )
-			{
+			if ( value == true ) {
 				jQuery.noticeAdd({ text: "Creating project...", type: "heavy newProject", stay: true });
 				jQuery.post("system/modules/projects/assets/update.php",
+				{
+						action: 'newProject',
+						system: SYSTEM,
+						title: form.title,
+						section: form.section
+				},
+				function(data)
+				{
+						jQuery.noticeRemove(jQuery(".newProject"));
+						if ( data == "false")
+						{
+							jQuery.prompt( '<h1>Fumbled!</h1> <p>Your new project could not be created because of a system error.</p>',
 							{
-									action: 'newProject',
-									system: SYSTEM,
-									title: form.title,
-									section: form.section
-							},
-							function(data)
-							{
-									jQuery.noticeRemove(jQuery(".newProject"));
-									if ( data == "false")
-									{
-										jQuery.prompt( '<h1>Fumbled!</h1> <p>Your new project could not be created because of a system error.</p>',
-										{
-											buttons: {
-												Ok	: true 
-											}
-										});
-									}
-									else
-									{
-										var location= String(window.location);
-										window.location= location.replace("#", "") + "&mode=edit&id=" + data;
-									}
+								buttons: {
+									Ok	: true 
+								}
 							});
+						}
+						else
+						{
+							var location= String(window.location);
+							window.location= location.replace("#", "") + "&mode=edit&id=" + data;
+						}
+				});
 			}
+
+			return true;
 		}
 	});
 };
@@ -315,7 +335,8 @@ var sectionSortable= function()
 			add: function(event, ui)
 			{
 				jQuery("#tabHolder #sectionsTabs li:last-child").attr("id", jQuery("#tabHolder #sectionsTabs li:last-child").attr("id").replace("-", "_").replace("#", ""));
-				jQuery("#tabHolder .sectionProjects").prepend(tempStorage.controls).appendTo("#overview");
+				// jQuery("#tabHolder .sectionProjects").prepend(tempStorage.controls).appendTo("#overview");
+				jQuery("#tabHolder .sectionProjects#section-" + tempStorage.id).prepend(tempStorage.controls)
 								
 				jQuery(".ui-tabs-nav").sortable("refresh");
 				jQuery(".sectionProjects ul").sortable(projectsSortableOpts);
@@ -367,15 +388,12 @@ var newSection= function()
 			Save	: true,
 			Cancel	: false
 		},
-		submit: function(value, msg, form)
+		submit: function(event, value, msg, form)
 		{
 			if ( form.name.length < 1 && value == true )
 				return false;
-				
-			return true;
-		},
-		callback: function(value, msg, form)
-		{
+			
+
 			if ( value == true )
 			{
 				jQuery.post("system/modules/projects/assets/update.php",
@@ -390,14 +408,13 @@ var newSection= function()
 					jQuery("#tabHolder").tabs("option", "tabTemplate", '<li id="section_' + data.id + '" class="section hide"><a class="name" href="#{href}">#{label}</a></li>');
 					jQuery("#tabHolder").tabs("add", "#section-" + data.id, form.name);
 					jQuery("#tabHolder .section#section_" + data.id).show("drop", { direction: "down" }, 300).removeClass("hide");
-					
+					jQuery("#tabHolder").tabs("option", "active", (data.pos - 1));
+
 					return data;
 				}, "json");
 			}
-			else
-			{
-				return false;
-			}
+
+			return true;
 		}
 	});
 };
@@ -410,37 +427,35 @@ var editSection= function(id, name, slug)
 			Save	: true,
 			Cancel	: false
 		},
-		submit: function(value, msg, form)
+		submit: function(event, value, msg, form)
 		{
 			if ( form.name.length < 1 && value == true )
 				return false;
 			
-			return true;
-		},
-		callback: function(value, msg, form)
-				  {
-				  	if ( value == true )
+			if ( value == true )
+			{
+				jQuery.noticeAdd({ text: "Saving...", type: "heavy saveSection", stay: true });
+				jQuery.post(
+					"system/modules/projects/assets/update.php",
 					{
-						jQuery.noticeAdd({ text: "Saving...", type: "heavy saveSection", stay: true });
-						jQuery.post(
-							"system/modules/projects/assets/update.php",
-							{
-								action: 'editSection',
-								system: SYSTEM,
-								id: id,
-								name: form.name,
-								slug: form.slug
-							},
-							function(data)
-							{
-								jQuery.noticeRemove(jQuery(".saveSection"));
-								jQuery("#section_" + id + " a").text(form.name);
-								jQuery("#section-" + id + " .controls .edit a").attr("onClick", "").unbind("click").click(function() { editSection(id, data.name, data.slug); return false; });
-							},
-							"json"
-						);
-					}
-				  }
+						action: 'editSection',
+						system: SYSTEM,
+						id: id,
+						name: form.name,
+						slug: form.slug
+					},
+					function(data)
+					{
+						jQuery.noticeRemove(jQuery(".saveSection"));
+						jQuery("#section_" + id + " a").text(form.name);
+						jQuery("#section-" + id + " .controls .edit a").attr("onClick", "").unbind("click").click(function() { editSection(id, data.name, data.slug); return false; });
+					},
+					"json"
+				);
+			}
+
+			return true;
+		}
 	});
 };
 
@@ -451,9 +466,8 @@ var deleteSection= function(id)
 			Cancel	: false,
 			OK		: true
 		},
-		callback: function(value, msg, form)
-				  {
-				  	if ( value == true )
+		submit: function(event, value, msg, form) {
+					if ( value == true )
 					{
 						jQuery("#tabHolder .section#section_" + id).animate( {opacity: 0, top: '+=35'}, 300, "easeOutQuad" , function() { jQuery("#tabHolder").tabs("remove", jQuery(".section#section_" + id).index()); }  );
 						
@@ -470,7 +484,7 @@ var deleteSection= function(id)
 							}
 						);
 					}
-				  }
+				}
 	});
 };
 
@@ -743,7 +757,7 @@ var deleteGroup= function(groupId)
 			Cancel	: false,
 			OK		: true
 		},
-		callback: function(value, msg, form)
+		submit: function(event, value, msg, form)
 				  {
 				  	if ( value == true )
 					{	
@@ -804,10 +818,8 @@ var toolbar_details= function(id)
 							Save	: true,
 							Cancel	: false
 						},
-						callback: function(value, msg, form)
-								  {
-								  	if ( value == true )
-									{
+						submit: function(event, value, msg, form) {
+								  	if ( value == true ) {
 										jQuery.noticeAdd({ text: "Saving...", type: "heavy", stay: true });
 										jQuery.post(
 											"system/modules/projects/assets/update.php",
@@ -826,7 +838,7 @@ var toolbar_details= function(id)
 									}
 
 									return true;
-								  }
+								}
 					});
 				},
 				"json"
@@ -843,11 +855,11 @@ var toolbar_delete= function ( id )
 			Cancel	: false,
 			OK		: true
 		},
-		callback: function(value, msg, form)
-				  {
+		submit: function(event, value, msg, form) {
 				  	if ( value == true )
 					{
-						if ( jQuery("#file_" + id).parent().attr("id") == "waitingRoom" )
+						// if ( jQuery("#file_" + id).parent().attr("id") == "waitingRoom" )
+						if (jQuery("#waitingRoom .filebox").length <= 1)
 						{
 							jQuery("#waitingRoom").fadeOut();
 						}
@@ -885,46 +897,3 @@ var deleteProjThumbnail= function()
 			}
 	);
 };
-
-/*
- * Fixed Scroll
- * http://www.webdeveloperjuice.com/2011/08/07/how-to-fix-element-position-after-some-scroll-using-jquery/
- *
- */
-(function($)
-{
-	$.fn.scrollFixed = function(params)
-	{
-		params = $.extend( {appearAfterDiv: 0, hideBeforeDiv: 0, container: 0, spacer: false}, params);
-		var element = $(this);
-
-		if( params.appearAfterDiv )
-			var distanceTop = element.offset().top + $(params.appearAfterDiv).outerHeight(true) + element.outerHeight(true);
-		else
-			var distanceTop = element.offset().top;
-
-		if ( params.hideBeforeDiv )
-			var bottom = $(params.hideBeforeDiv).offset().top - element.outerHeight(true) - 10;
-		else
-			var bottom= $(document).height() - element.outerHeight(true);
-			// var bottom = 200000;
-
-		if ( params.spacer )
-			$(params.container).prepend('<div class="spacer"></div>');
-
-		$(window).scroll(function()
-		{
-			if ( element.is(":visible") ) {
-				if ( $(window).scrollTop() > distanceTop && $(window).scrollTop() < bottom ) {
-					if ( params.spacer ) $(params.container + " .spacer").height( element.outerHeight(true) );
-					element.css({'position':'fixed'}).addClass("scrollFixed");
-				}else {
-					if ( params.spacer ) $(params.container + " .spacer").height(0);
-					element.css({'position':'relative'}).removeClass("scrollFixed");
-				}
-			}else {
-				if ( params.spacer ) $(params.container + " .spacer").height(0);
-			}
-		});			  
-	};
-})(jQuery);

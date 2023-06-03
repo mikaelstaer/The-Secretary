@@ -28,10 +28,10 @@
 	{
 		global $clerk;
 		
-		parse_str( str_replace("&amp;", "&", $_POST['order']) );
+		parse_str( str_replace("&amp;", "&", $_POST['order']), $page );
 		
 		$count= 0;
-		foreach( $page as $p )
+		foreach( $page['page'] as $p )
 		{
 			$ok= $clerk->query_edit( "pages", "pos= '$count'", "WHERE id= '$p'" );
 			$count++;

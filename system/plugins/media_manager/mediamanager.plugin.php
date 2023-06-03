@@ -1,4 +1,6 @@
 <?php
+	// error_reporting(E_ALL | E_STRICT);
+
 	// Variables
 	$db= (isset($clerk)) ? $clerk : $manager->clerk;
 	define("MMURL", $db->getSetting("mediamanager_path", 2));
@@ -6,12 +8,13 @@
 
 	// Hooks
 	$db_link = $db->dbConnect();
+	$_POST= $db->clean($_POST, $db_link);
 	$_GET= $db->clean($_GET, $db_link);
 
 	if (!empty($_GET['mmfile']))
 		hook("start", "showImage");
 
-	if ($_GET['action'] == "delete" && !empty($_GET['id']))
+	if ($_POST['action'] == "delete" && !empty($_POST['id']))
 		hook("start", "mmDelete");
 
 	hook("start", "mmInstall"); // Make sure it is installed!
@@ -60,7 +63,7 @@
 	{
 		global $manager;
 
-		if (unlink(MMPATH . $_GET['id']))
+		if (unlink(MMPATH . $_POST['id']))
 		{
 			echo "true";
 		}
@@ -459,7 +462,7 @@ HTML;
 		$fileTypes= array('.jpg', '.gif', '.png', '.mp3', '.mov', '.mpeg', '.pdf', '.txt', '.html');
 
 		$manager->form->add_fieldset("Select image", "selectImage");
-		$manager->form->add_input("file", "image", "(" . implode($fileTypes, ", ") . " / <strong>Max " . str_replace("M", "mb", ini_get("upload_max_filesize")) . "</strong>)");
+		$manager->form->add_input("file", "image", "(" . implode(", ", $fileTypes) . " / <strong>Max " . str_replace("M", "mb", ini_get("upload_max_filesize")) . "</strong>)");
 		$manager->form->close_fieldset();
 
 		$manager->form->add_file_rule("image");
@@ -480,7 +483,7 @@ HTML;
 
 		// $fileTypes= array('.jpg', '.jpeg', '.gif', '.png');
 		$fileTypes= array();
-
+		
 		foreach ($_FILES['image']['name'] as $key => $val)
 		{
 			if (empty($val))

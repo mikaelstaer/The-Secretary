@@ -27,7 +27,7 @@ jQuery( function($)
 					Cancel	: false,
 					OK		: true
 				},
-				callback: function(value, msg, form)
+				submit: function(event, value, msg, form)
 						  {
 						  		if ( value == true )
 								{
@@ -47,7 +47,7 @@ jQuery( function($)
 					Cancel	: false,
 					OK		: true
 				},
-				callback: function(value, msg, form)
+				submit: function(event, value, msg, form)
 						  {
 						  		if ( value == true )
 								{
@@ -73,7 +73,7 @@ var newPost= function()
 			Save	: true,
 			Cancel	: false
 		},
-		callback: function(value, msg, form)
+		submit: function(event, value, msg, form)
 				  {
 				  	if ( value == true )
 					{

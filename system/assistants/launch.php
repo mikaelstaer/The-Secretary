@@ -24,7 +24,8 @@
 		}
 
 		loadPlugins();
-
+		
+		$POST_UNCLEAN = $_POST;
 		$_POST= $clerk->clean( $_POST, $db_link );
 
 		$actions= explode( ",", $_POST['action']);

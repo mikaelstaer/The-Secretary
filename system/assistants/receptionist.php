@@ -79,15 +79,18 @@
 		$this->templates= $receptionist_templates;
 		$this->default_templates= $receptionist_templates;
 		
-		// If the form as been submitted, set object $submitted variable to true and run validation.
+		// If the form has been submitted, set object $submitted variable to true and run validation.
 		if ( !empty( $this->trigger ) && !empty( $this->form_vars[$this->trigger] ) ) {
-			if (!get_magic_quotes_gpc()) {
+			// if (!get_magic_quotes_gpc()) {
 				$this->rulesTemp= unserialize(str_replace("';", "\";", str_replace(":'", ":\"", $this->form_vars['rules'])));
-				$this->file_rulesTemp= unserialize(str_replace("';", "\";", str_replace(":'", ":\"", $this->form_vars['fileRules'])));
-			}else {
-				$this->rulesTemp= unserialize(str_replace("';", "\";", str_replace(":'", ":\"", stripslashes($this->form_vars['rules']))));
-				$this->file_rulesTemp= unserialize(str_replace("';", "\";", str_replace(":'", ":\"", stripslashes($this->form_vars['fileRules']))));
-			}
+
+				if (!empty($this->form_vars['fileRules'])) {
+					$this->file_rulesTemp= unserialize(str_replace("';", "\";", str_replace(":'", ":\"", $this->form_vars['fileRules'])));
+				}
+			// }else {
+			// 	$this->rulesTemp= unserialize(str_replace("';", "\";", str_replace(":'", ":\"", stripslashes($this->form_vars['rules']))));
+			// 	$this->file_rulesTemp= unserialize(str_replace("';", "\";", str_replace(":'", ":\"", stripslashes($this->form_vars['fileRules']))));
+			// }
 			$this->submitted= true;
 			$this->validate();
 		}
@@ -476,7 +479,7 @@
 		// so we must unserialize() it (str_replace() is used to reverse the single-quotes to double-quotes
 		// change made by dump_rules() ).
 				
-		if ( count($this->rulesTemp) >= 1 && is_array( $this->rulesTemp ))
+		if ( is_array( $this->rulesTemp ) && count($this->rulesTemp) >= 1 )
 		foreach ($this->rulesTemp as $field_name => $rule) {
 			$count= 0;
 			foreach ( $rule as $data ) {
@@ -501,7 +504,7 @@
 			}
 		}
 		
-		if ( count($this->file_rulesTemp) >= 1 && is_array( $this->file_rulesTemp ))
+		if ( is_array( $this->file_rulesTemp ) && count($this->file_rulesTemp) >= 1 )
 		foreach ($this->file_rulesTemp as $field_name => $rule) {
 			$count= 0;
 			foreach ( $rule as $data ) {

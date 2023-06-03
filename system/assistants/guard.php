@@ -43,10 +43,11 @@
 
 		public function data_escape( $string )
 		{
-			if ( get_magic_quotes_gpc() )
-				return mysql_real_escape_string( stripslashes( $string ) );
-			else
-				return mysql_real_escape_string( $string );
+			global $manager;
+			// if ( get_magic_quotes_gpc() )
+			// 	return mysqli_real_escape_string( stripslashes( $string ) );
+			// else
+				return mysqli_real_escape_string($manager->clerk->link, $string );
 		}
 
 		public function this_path()

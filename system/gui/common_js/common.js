@@ -3,6 +3,10 @@ var ajax_message= "Loading...";
 var ajax_message_default= "Loading...";
 var ajax_message_type= "normal";
 
+jQuery.curCSS = function(element, prop, val) {
+    return jQuery(element).css(prop, val);
+};
+
 jQuery(function($)
 {
 	setTimeout("$('.message_success').fadeOut('slow')", 3000);
@@ -28,10 +32,11 @@ jQuery(function($)
 		}	
 	);
 	
-	jQuery.SetImpromptuDefaults(
+	jQuery.prompt.setDefaults(
 	{
+		show: "fadeIn",
 		overlayspeed: "fast",
-		useiframe: true,
+		// useiframe: true,
 		persistent: false,
 		opacity: 0.3
 	});

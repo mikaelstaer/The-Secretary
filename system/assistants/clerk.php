@@ -181,24 +181,25 @@
 
 		public function dbConnect( $info= "" )
 		{
+			
 			$info= ( empty( $info ) ) ? $this->config : $info;
 
-      $connection = mysqli_connect( $info['DB_SERVER'], $info['DB_USERNAME'], $info['DB_PASSWORD'], $info['DB_NAME']);
-
-      mysqli_query( $connection, "SET NAMES 'utf8'" );
+      		$connection = mysqli_connect( $info['DB_SERVER'], $info['DB_USERNAME'], $info['DB_PASSWORD'], $info['DB_NAME']);
+			
+      		mysqli_query( $connection, "SET NAMES 'utf8'" );
 			mysqli_query( $connection,"SET CHARACTER SET utf8" );
-
-      $this->link = $connection;
-      return $connection;
+			
+      		$this->link = $connection;
+      		return $connection;
 			// return mysqli_select_db( $info["DB_NAME"] );
-      // return $this->link;
+      		// return $this->link;
 		}
 
 		public function disconnect()
 		{
 			// mysqli_free_result($this->link);
 			// mysqli_close($this->link);
-      // $this->link= "";
+      		// $this->link= "";
 		}
 
 		public function query_insert( $table, $fields, $values, $multiple= false )
@@ -278,7 +279,7 @@
 					$how= MYSQLI_BOTH;
 					break;
 			}
-
+			mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 			return mysqli_fetch_array( $get, MYSQLI_ASSOC );
 		}
 
@@ -359,14 +360,14 @@
 				else
 				{
 					$string= $val;
-					if ( get_magic_quotes_gpc() )
-					{
-						$string= stripslashes( $string );
-					}
+					// if ( get_magic_quotes_gpc() )
+					// {
+					// 	$string= stripslashes( $string );
+					// }
 
 					if ( !in_array( $key, $this->preserved_vars ) )
 					{
-						$string= mysqli_real_escape_string( $link, htmlspecialchars( $string, ENT_COMPAT, 'UTF-8') );
+						$string= mysqli_real_escape_string( $link, $string );
 					}
 
 					$new[$key]= $string;
@@ -380,10 +381,10 @@
 		{
 			$string= $var;
 
-			if ( get_magic_quotes_gpc() )
-			{
-				$string= stripslashes( $var );
-			}
+			// if ( get_magic_quotes_gpc() )
+			// {
+			// 	$string= stripslashes( $var );
+			// }
 
 			if ( !in_array( $var, $this->preserved_vars ) )
 			{
@@ -418,7 +419,7 @@
 			return $string;
 		}
 
-		private function message( $type= 0, $mysqli_error= false, $text )
+		private function message( $type= 0, $mysqli_error= false, $text= "" )
 		{
 			$type= ( $type == 1 ) ? "success" : "error";
 

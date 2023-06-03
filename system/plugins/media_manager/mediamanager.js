@@ -38,11 +38,11 @@ var deleteFile= function(file, id)
 			Cancel	: false,
 			OK		: true
 		},
-		callback: function(value, msg, form)
+		submit: function(event, value, msg, form)
 				  {
 				  	if ( value == true )
 					{
-						jQuery.get(
+						jQuery.post(
 							"index.php",
 							{
 								cubicle: "mediamanager",

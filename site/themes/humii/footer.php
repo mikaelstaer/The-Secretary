@@ -8,7 +8,7 @@
 			</div>
 			
 			<div id="powered-by">
-				Powered by <a href="http://www.secretarycms.com">Secretary</a>
+				Powered by <a href="https://www.secretarycms.com">Secretary</a>
 			</div>
 		</div>
 	</body>

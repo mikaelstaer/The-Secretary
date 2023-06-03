@@ -29,7 +29,7 @@ INSERT INTO global_settings (id, name, data1, data2, data3) VALUES
 (19, 'maintenanceMode', '0', '', ''),
 (20, 'clean_urls', '0', '', ''),
 (21, 'projects_fullsizeimg', '', '1', '0'),
-(22, 'slideshow_opts', '', '', '');
+(22, 'slideshow_opts', 'a:6:{s:4:"prev";s:4:"Prev";s:7:"divider";s:3:" / ";s:4:"next";s:4:"Next";s:2:"of";s:0:"";s:7:"nav_pos";s:6:"bottom";s:2:"fx";s:4:"fade";}', '', '');
 
 CREATE TABLE IF NOT EXISTS pages (
   id int(11) NOT NULL auto_increment,

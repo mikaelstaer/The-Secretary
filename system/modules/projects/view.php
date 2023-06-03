@@ -394,6 +394,8 @@
 
 				$print_block= '<div class="textblock">' . $textblock['modified'] . '</div>';
 				$print_block= call_anchor( "textblock_modify_html", $print_block );
+				// echo nl2br(htmlentities($thefiles[$textBlockID]['caption'], ENT_QUOTES, 'UTF-8'));
+				// echo str_replace('\n', '<br>', $thefiles[$textBlockID]['caption']);
 				echo $print_block;
 			}
 			elseif ( strstr( $part, "group" ) )
@@ -712,8 +714,8 @@
 		$projectid	=	$project['id'];
 		$tags		= 	array();
 		$cleanUrls	=	(bool) $clerk->getSetting( "clean_urls", 1 );
-
-		$getTags= $clerk->query_select( "projects_to_tags", "DISTINCT tag", "WHERE projectid= '$projectid' ORDER BY id ASC" );
+		
+		$getTags= $clerk->query_select( "projects_to_tags", "DISTINCT tag", "WHERE projectid= '$projectid'" );
 		while ( $tag= $clerk->query_fetchArray( $getTags ) )
 		{
 			$tags[]= '<a href="' . linkToProjectTag( $tag['tag'] ) . '">' . $tag['tag'] . '</a>';
@@ -730,7 +732,7 @@
 		$tags		= 	array();
 		$cleanUrls	=	(bool) $clerk->getSetting( "clean_urls", 1 );
 
-		$getTags= $clerk->query_select( "projects_to_tags", "DISTINCT tag", "WHERE projectid= '$projectid' ORDER BY id ASC" );
+		$getTags= $clerk->query_select( "projects_to_tags", "DISTINCT tag", "WHERE projectid= '$projectid'" );
 		while ( $tag= $clerk->query_fetchArray( $getTags ) )
 		{
 			$tags[]= $clerk->simple_name( $tag['tag'] );

@@ -61,13 +61,24 @@
 	{
 		global $clerk, $page;
 		
-		if ( $id != $page['id'] )
-		{	
+		// if (empty($page)) {
+		// 	return $page;
+		// }elseif ($id != $page['id']) {
+		// 	return $clerk->query_fetchArray( $clerk->query_select( "pages", "", "WHERE id= '$id' OR slug= '$id'" ) );
+		// }else {
+		// 	$id= PAGE;
+		// 	return $clerk->query_fetchArray( $clerk->query_select( "pages", "", "WHERE id= '$id' OR slug= '$id'" ) );
+		// }
+
+		// return;
+
+		if (!empty($page) && $id != $page['id'] )
+		{
 			return $clerk->query_fetchArray( $clerk->query_select( "pages", "", "WHERE id= '$id' OR slug= '$id'" ) );
 		}
-		elseif ( empty( $page['id'] ) )
+		elseif (empty( $page['id']))
 		{
-			$id= PAGE;
+			// $id= PAGE;
 			return $clerk->query_fetchArray( $clerk->query_select( "pages", "", "WHERE id= '$id' OR slug= '$id'" ) );
 		}
 		else

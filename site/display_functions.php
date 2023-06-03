@@ -70,7 +70,11 @@
 			}
 			else
 			{
-				$hold[$parent].= ",$val";
+				if (!isset($hold[$parent])) {
+					$hold[$parent] = "";
+				}
+
+				$hold[$parent].= ",$val";				
 			}
 
 		}
@@ -202,7 +206,7 @@
 	{
 		global $anchors, $stop_hooks;
 
-		if ( count( $anchors[$name] > 0 ) && is_array( $anchors[$name] ) )
+		if (isset($anchors[$name]) && count($anchors[$name]) > 0 && is_array($anchors[$name]))
 		{
 			foreach ( $anchors[$name] as $function => $data )
 			{
@@ -347,13 +351,14 @@
 
 	function nl2p( $text )
 	{
+		// $text = str_replace('\n', '<br>', $text);
 	    $text = '<p>' . $text . '</p>';
-      	$text = str_replace("\n", "</p>\n<p" . $cssClass . '>', $text);
+      	// $text = str_replace("\n", "</p>\n<p" . $cssClass . '>', $text);
 
       	$text = str_replace(array('<p></p>', "\r"), '', $text);
 		$text= str_replace( "<p></p>", "", $text );
 
-		return $text;
+		return nl2br($text);
 	}
 
 	function textOutput( $string )

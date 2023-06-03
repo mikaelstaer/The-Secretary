@@ -5,11 +5,11 @@
 	position: relative;
 	float: left;
 	width: 958px;
-	height: 34px;
-	border: 1px solid #CCC;
+	/* height: 34px; */
+	/* border: 1px solid #CCC;
 	-webkit-border-radius: 3px;
 	-moz-border-radius: 3px;
-	border-radius: 3px;
+	border-radius: 3px; */
 	overflow: auto;
 }
 
@@ -22,7 +22,8 @@
 
 #sectionsTabs li.section {
 	position: relative;
-	margin: -1px 0 0 -1px;
+	/* margin: -1px 0 0 -1px; */
+	margin-right: 2px;
 	float: left;
 	width: auto;
 	border: 1px solid #CCC;
@@ -359,16 +360,17 @@
 	width: 100%;
 }
 
-.project, .ui-sortable-placeholder {
-	float: left;
-	margin-right: 21px;
-	margin-bottom: 20px;
-	width: 175px;
-	height: 140px;
+ul.projects {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 16px;
+	width: 100%;
 }
 
-.project:nth-child(5n+0) {
-	margin-right: 0;
+.project, .ui-sortable-placeholder {
+	float: left;
+	width: 175px;
+	height: 140px;
 }
 
 .project .handle {
@@ -431,7 +433,8 @@
 }
 
 #waitingRoom {
-	position: relative;
+	position: sticky;
+	top: 16px;
 	z-index: 100;
 	background-color: #FFF;
 }
@@ -458,4 +461,30 @@
 #theThumb img {
 	display: block;
 	max-width: 100%;
+}
+
+#fileupload {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	display: block;
+	opacity: 0;
+	cursor: pointer;
+}
+
+.qq-upload-button {
+	position: relative;
+}
+
+.qq-upload-button:hover {
+	background: #61A343;
+}
+
+.spinner {
+	display: none;
+	float: left;
+	margin-left: 16px;
+	margin-top: 12px;
 }
